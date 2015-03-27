@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tandoori chat</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link type="text/css" rel="stylesheet" media="screen" href="/javascripts/conversejs/css/converse.css" />
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.js"></script>
+    <script data-main="/javascripts/conversejs/main" src="/javascripts/conversejs/components/requirejs/require.js"></script>
+  </head>
+  <body>
+    <h1>Tandoori chat</h1>
+    <p>Welcome to Tandoori chat</p>
+    <p>Ask the server to retrieve the XMPP/BOSH URL from Hipchat. In prod, it should be done automatically by the server and only once in a while (when the URL changes).</p>
+    <p><button id="get-bosh-url">Get BOSH URL</button></p>
+    <p>Ask the server to create a Hipchat user. In prod, it should be done automatically when a Tandoori user is created</p>
+    <p><button id="create-user">Create user</button></p>
+    <p>Get user info. In prod, this is done automatically and cached in localStorage.</p>
+    <p><button id="get-user-info">Get user info</button></p>
+    <p>Connect to chat. In prod, this is done automatically.</p>
+    <p><button id="connect-chat">Connect to chat</button></p>
+    <p><button id="disconnect-chat">Disconnect</button></p>
+
+  </body>
+</html>
