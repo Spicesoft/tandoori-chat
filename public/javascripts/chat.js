@@ -145,10 +145,8 @@ define([
     })
 
     converse.initialize({
-      //bosh_service_url: '/http-bind/web-d13',
-      //bosh_service_url: 'https://tandoori.hipchat.com/http-bind/web-e16',
       bosh_service_url: boshURL,
-      i18n: locales['en'], // Refer to ./locale/locales.js to see which locales are supported
+      i18n: locales['fr'], // Refer to ./locale/locales.js to see which locales are supported
       debug: true,
 
       allow_contact_removal: false,
@@ -156,7 +154,7 @@ define([
       allow_muc: true,
       allow_otr: false,
       allow_registration: false,
-      animate: false,
+      animate: true,
       auto_list_rooms: true,
       auto_reconnect: false,
       auto_subscribe: false,
@@ -169,14 +167,14 @@ define([
       forward_messages: false, // TODO: test if solve missing message from hipchat
       fullname: null,
       hide_muc_server: true,
-      hide_offline_users: true,
+      hide_offline_users: false,
       play_sounds: true,
       prebind: false, // TODO: try (require server prebind)
       prebind_url: null,
       providers_link: null,
       roster_groups: false,
-      show_controlbox_by_default: true,
-      show_only_online_users: false,
+      show_controlbox_by_default: false,
+      show_only_online_users: false, // = hide busy, absent...
       storage: 'session',
       use_otr_by_default: false,
       use_vcards: true,
