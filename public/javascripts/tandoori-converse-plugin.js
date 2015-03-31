@@ -36,6 +36,9 @@ define([
   TandooriPlugin.prototype = {
     init : function (converse) {
       this.converse = converse;
+
+      this.setupStrophe404Interceptor();
+
       this.debugEvents();
       // connect to chat immediately after page load
       this.autoconnect();
@@ -43,6 +46,43 @@ define([
       this.patchConverse();
 
       this.bindEvents();
+    },
+
+    /*
+     * When a 404 occurs, Strophe disconnects and is left in a bad state (can't
+     * reconnect automatically).
+     *
+     * Strophe has a plugin system where plugins are notified of status change
+     * but we cannot know the reason. Since this is not enough, we monkey-patch
+     * the Bosh requestStateChange listener.
+     *
+     */
+    setupStrophe404Interceptor : function () {
+      var plugin = this;
+
+      var _onRequestStateChange = Strophe.Bosh.prototype._onRequestStateChange;
+
+      Strophe.Bosh.prototype._onRequestStateChange = function (func, req) {
+        _onRequestStateChange.apply(this, arguments);
+
+        if (req.xhr.readyState == 4) {
+          var reqStatus = 0;
+          try {
+            reqStatus = req.xhr.status;
+          } catch (e) {
+            // ignore errors from undefined status attribute. works around a browser bug
+          }
+          if (reqStatus >= 400 && reqStatus < 500) {
+            plugin.interceptStrophe404();
+          }
+        }
+      };
+    },
+
+    interceptStrophe404 : function () {
+      // a 404 error has occured, Strophe is disconnecting
+      console.log('A 404 error has been detected, trying to recover.')
+      this.recover404();
     },
 
     bindEvents : function () {
