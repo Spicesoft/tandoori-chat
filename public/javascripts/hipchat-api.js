@@ -39,15 +39,19 @@ define(['jquery'], function ($) {
       request('post', '/room', params, callback);
     },
 
-    deleteRoom  : function (idOrName, callback) {
+    deleteRoom : function (idOrName, callback) {
       request('delete',  '/room/' + idOrName, callback);
     },
 
-    addMemberToPrivateRoom  : function (roomNameOrId, emailOrId, callback) {
+    getRoomMembers : function (roomNameOrId, callback) {
+      request('get', '/room/' + roomNameOrId + '/member', callback);
+    },
+
+    addMemberToPrivateRoom : function (roomNameOrId, emailOrId, callback) {
       request('put', '/room/' + roomNameOrId + '/member/' + emailOrId, callback);
     },
 
-    removeMemberFromPrivateRoom  : function (roomNameOrId, emailOrId, callback) {
+    removeMemberFromPrivateRoom : function (roomNameOrId, emailOrId, callback) {
       request('delete', '/room/' + roomNameOrId + '/member/' + emailOrId, callback);
     }
   };
