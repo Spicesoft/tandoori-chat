@@ -8,6 +8,7 @@ define([
   '/javascripts/tandoori-ext/ContactsPanel.js',
   '/javascripts/tandoori-ext/RosterContactView.js',
   '/javascripts/tandoori-ext/ChatRoomView.js',
+  '/javascripts/tandoori-ext/ChatRoomOccupantsView.js',
 ], function (
   S,
   conversePublic,
@@ -16,7 +17,8 @@ define([
   TandooriRoomsPanel,
   TandooriContactsPanel,
   TandooriRosterContactView,
-  TandooriChatRoomView
+  TandooriChatRoomView,
+  TandooriChatRoomOccupantsView
 ) {
   var Strophe = S.Strophe;
 
@@ -96,6 +98,7 @@ define([
       this.extendConverseClass(this.converse.ContactsPanel, TandooriContactsPanel);
       this.extendConverseClass(this.converse.RosterContactView, TandooriRosterContactView);
       this.extendConverseClass(this.converse.ChatRoomView, TandooriChatRoomView);
+      this.extendConverseClass(this.converse.ChatRoomOccupantsView, TandooriChatRoomOccupantsView);
     },
 
     extendConverseClass : function (ConverseClass, TandooriExtension) {
@@ -111,6 +114,31 @@ define([
         }
         console.log('Room creation:', result);
       });
+    },
+
+    addMemberToPrivateRoom : function (jid, xmppRoomName) {
+      // user requested the addition of a member to a private room
+      var userId = this.jidToId(jid);
+      var roomName = this.xmppRoomNameToName(xmppRoomName);
+      hipchatAPI.addMemberToPrivateRoom(roomName, userId, function (err, result) {
+        if (err) {
+          console.error('Member addition failed:', err);
+          return;
+        }
+        console.log('Member addition: ok');
+      });
+    },
+
+    jidToId : function (jid) {
+      // example: 123456_1234567@chat.hipchat.com => 1234567
+      var jid_user = jid.split('@')[0] || '';
+      var id = jid_user.split('_')[1] || '';
+      return id;
+    },
+
+    xmppRoomNameToName : function (xmppRoomName) {
+      // example: 123456_kitchen => kitchen
+      return xmppRoomName.split('_')[1];
     },
 
     /*
