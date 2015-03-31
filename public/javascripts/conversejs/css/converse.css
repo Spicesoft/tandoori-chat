@@ -986,22 +986,30 @@
     font-size: 14px; }
   #conversejs #converse-login .submit {
     margin: 1em 0; }
-  #conversejs form.add-chatroom {
+  #conversejs form.add-chatroom,
+  #conversejs form.create-chatroom {
     background: none;
     padding: 0.5em; }
     #conversejs form.add-chatroom input[type=button],
     #conversejs form.add-chatroom input[type=submit],
-    #conversejs form.add-chatroom input[type=text] {
+    #conversejs form.add-chatroom input[type=text],
+    #conversejs form.create-chatroom input[type=button],
+    #conversejs form.create-chatroom input[type=submit],
+    #conversejs form.create-chatroom input[type=text] {
       margin: 0;
       width: 100%;
       padding: 0.25em; }
     #conversejs form.add-chatroom span.spinner,
     #conversejs form.add-chatroom input[type=button],
-    #conversejs form.add-chatroom input[type=submit] {
+    #conversejs form.add-chatroom input[type=submit],
+    #conversejs form.create-chatroom span.spinner,
+    #conversejs form.create-chatroom input[type=button],
+    #conversejs form.create-chatroom input[type=submit] {
       margin-top: 0.5em;
       display: table-cell;
       width: auto; }
-    #conversejs form.add-chatroom input[type=submit] {
+    #conversejs form.add-chatroom input[type=submit],
+    #conversejs form.create-chatroom input[type=submit] {
       color: #436F64; }
   #conversejs select#select-xmpp-status {
     float: right;
