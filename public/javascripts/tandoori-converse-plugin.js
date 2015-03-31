@@ -46,8 +46,6 @@ define([
       this.autoconnect();
       // add features to converse
       this.patchConverse();
-
-      this.bindEvents();
     },
 
     /*
@@ -87,11 +85,6 @@ define([
       this.recover404();
     },
 
-    bindEvents : function () {
-      this.converse.off('apiCreateChatRoom', this.onAPICreateChatRoom, this);
-      this.converse.on('apiCreateChatRoom', this.onAPICreateChatRoom, this);
-    },
-
     patchConverse : function () {
       this.extendConverseClass(this.converse.LoginPanel, TandooriLoginPanel);
       this.extendConverseClass(this.converse.RoomsPanel, TandooriRoomsPanel);
@@ -105,7 +98,7 @@ define([
       conversePublic.plugins.extend(ConverseClass, TandooriExtension(this));
     },
 
-    onAPICreateChatRoom : function(ev, params) {
+    createChatRoom : function(ev, params) {
       // user requested the creation of a new room
       hipchatAPI.createRoom(params, function (err, result) {
         if (err) {

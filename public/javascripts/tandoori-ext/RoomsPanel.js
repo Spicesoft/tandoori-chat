@@ -74,8 +74,7 @@ define([
           privacy : private ? 'private' : 'public'
         };
 
-        // TODO_TANDOORI: better way than an event?
-        converse.emit('apiCreateChatRoom', params);
+        plugin.createChatRoom(params);
       },
 
 
