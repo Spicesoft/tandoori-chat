@@ -1,10 +1,19 @@
 define(['jquery'], function ($) {
-  function getUserInfo(user, callback) {
+  var access_token;
+
+  function request(method, url, body, callback) {
+    if (!callback) {
+      callback = body;
+      body = '';
+    }
+
     $.ajax({
-      url: 'https://api.hipchat.com/v2/user/' + user.email,
-      method: 'get',
+      url: 'https://api.hipchat.com/v2' + url,
+      method: method,
+      data : body ? JSON.stringify(body) : null,
+      contentType: 'application/json',
       beforeSend: function(xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + user.access_token);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
       },
       success : function (result) {
         callback(null, result);
@@ -16,11 +25,30 @@ define(['jquery'], function ($) {
   }
 
 
+
+
   return {
-    getUserInfo : getUserInfo,
-    createRoom  : function () {},
-    deleteRoom  : function () {},
-    inviteUser  : function () {},
-    removeUser  : function () {},
+    request: request,
+    setAccessToken : function (token) {access_token = token;},
+
+    getUser : function (emailOrId, callback) {
+      request('get', '/user/' + emailOrId, callback);
+    },
+
+    createRoom : function (params, callback) {
+      request('post', '/room', params, callback);
+    },
+
+    deleteRoom  : function (idOrName, callback) {
+      request('delete',  '/room/' + idOrName, callback);
+    },
+
+    addMemberToPrivateRoom  : function (roomNameOrId, emailOrId, callback) {
+      request('put', '/room/' + roomNameOrId + '/member/' + emailOrId, callback);
+    },
+
+    removeMemberFromPrivateRoom  : function (roomNameOrId, emailOrId, callback) {
+      request('delete', '/room/' + roomNameOrId + '/member/' + emailOrId, callback);
+    }
   };
 });

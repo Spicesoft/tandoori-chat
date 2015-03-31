@@ -1,11 +1,13 @@
 
 define([
+  'jquery',
   'underscore',
   'converse',
   '/javascripts/converse-plugins.js',
   '/javascripts/tandoori-api.js',
   '/javascripts/hipchat-api.js'
 ], function (
+  $,
   _,
   converse,
   conversePlugins,
@@ -15,13 +17,21 @@ define([
 
   var boshURL = localStorage.getItem('boshURL');
   var userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (userInfo && userInfo.access_token) {
+    hipchatAPI.setAccessToken(userInfo.access_token);
+  }
 
   function start() {
+
+    // auto start
+    if (boshURL && userInfo) {
+      setupChat(boshURL, userInfo);
+    }
 
     $('#get-bosh-url').click(function () {
       var $el = $(this);
       $el.html('Waiting (it is slow)...');
-      getBoshURL(function (err, url) {
+      tandooriAPI.getBoshURL(function (err, url) {
         if (err) {
           $el.html('Error: ' + err);
           return;
@@ -35,7 +45,7 @@ define([
     $('#create-user').click(function () {
       var $el = $(this);
       $el.html('Creating user...');
-      createUser(function (err, user) {
+      tandooriAPI.createUser(function (err, user) {
         if (err) {
           $el.html('Error: ' + err);
           return;
@@ -43,13 +53,15 @@ define([
         $el.html('User created: ' + user.name);
         console.log(user);
         userInfo = user;
+        hipchatAPI.setAccessToken(userInfo.access_token);
       });
     });
 
     $('#get-user-info').click(function () {
       var $el = $(this);
       $el.html('Getting user info...');
-      getUserInfo(userInfo, function (err, info) {
+
+      hipchatAPI.getUser(userInfo.email, function (err, info) {
         if (err) {
           $el.html('Error: ' + err);
           return;
