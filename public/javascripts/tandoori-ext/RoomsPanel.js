@@ -53,7 +53,10 @@ define([
         this.$tabs.append(converse.templates.chatrooms_tab({label_rooms: __('Rooms')}));
 
         // set correct nickname for hipchat
-        this.model.save({nick: correctNickName});
+        // /!\ setting the nick directly in the model causes a bug (muc_server not set)
+        // so we set it in the DOM
+        this.$el.find('input.new-chatroom-nick').val(correctNickName);
+
         // TODO_TANDOORI: move to template?
         // hide original room join form
         this.$el.find('.add-chatroom').hide();
