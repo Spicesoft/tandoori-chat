@@ -12,11 +12,8 @@ define([
 ) {
   var Strophe = S.Strophe;
 
-
   return function (plugin) {
     var converse = plugin.converse;
-    var correctNickName = plugin.params.user.username;
-
     var __ = $.proxy(utils.__, converse);
 
     return {
@@ -33,6 +30,7 @@ define([
         // add a button to refresh room list
         'click button#refresh-rooms': 'showRooms'
       },
+
       render: function () {
         this.$parent.append(
           this.$el.html(
@@ -51,11 +49,6 @@ define([
           ).hide());
         this.$tabs = this.$parent.parent().find('#controlbox-tabs');
         this.$tabs.append(converse.templates.chatrooms_tab({label_rooms: __('Rooms')}));
-
-        // set correct nickname for hipchat
-        // /!\ setting the nick directly in the model causes a bug (muc_server not set)
-        // so we set it in the DOM
-        this.$el.find('input.new-chatroom-nick').val(correctNickName);
 
         // TODO_TANDOORI: move to template?
         // hide original room join form

@@ -3,6 +3,7 @@ define([
   'strophe',
   'converse',
   '/javascripts/hipchat-api.js',
+  '/javascripts/tandoori-ext/ControlBoxView.js',
   '/javascripts/tandoori-ext/LoginPanel.js',
   '/javascripts/tandoori-ext/RoomsPanel.js',
   '/javascripts/tandoori-ext/ContactsPanel.js',
@@ -13,6 +14,7 @@ define([
   S,
   conversePublic,
   hipchatAPI,
+  TandooriControlBoxView,
   TandooriLoginPanel,
   TandooriRoomsPanel,
   TandooriContactsPanel,
@@ -86,6 +88,7 @@ define([
     },
 
     patchConverse : function () {
+      this.extendConverseClass(this.converse.ControlBoxView, TandooriControlBoxView);
       this.extendConverseClass(this.converse.LoginPanel, TandooriLoginPanel);
       this.extendConverseClass(this.converse.RoomsPanel, TandooriRoomsPanel);
       this.extendConverseClass(this.converse.ContactsPanel, TandooriContactsPanel);
