@@ -81,10 +81,53 @@ define([
       converse.disconnect();
     });
 
+    $('#create-room').submit(function (ev) {
+      ev.preventDefault();
+      var name = $(this).find('input[name="room-name"]').val();
+      var private = $(this).find('input[name="room-privacy"]').is(':checked');
+      var $submitBtn = $(this).find('input[type="submit"]');
+      hipchatAPI.createRoom({
+        name : name,
+        privacy : private ? 'private' : 'public'
+      }, function (err, result) {
+        if (err) {
+          $submitBtn.val('Error: ' + err);
+          return;
+        }
+        $submitBtn.val('Room created:' + result.id);
+      });
+    });
   }
 
+    $('#add-member').submit(function (ev) {
+      ev.preventDefault();
+      var room = $(this).find('input[name="room-name"]').val();
+      var member = $(this).find('input[name="member-email"]').val();
+      var $submitBtn = $(this).find('input[type="submit"]');
+      hipchatAPI.addMemberToPrivateRoom(room, member, function (err, result) {
+        if (err) {
+          $submitBtn.val('Error: ' + err);
+          return;
+        }
+        debugger;
+        $submitBtn.val('Member added.');
+      });
+    });
   function setupChat(boshURL, userInfo) {
 
+    $('#remove-member').submit(function (ev) {
+      ev.preventDefault();
+      var room = $(this).find('input[name="room-name"]').val();
+      var member = $(this).find('input[name="member-email"]').val();
+      var $submitBtn = $(this).find('input[type="submit"]');
+      hipchatAPI.removeMemberFromPrivateRoom(room, member, function (err, result) {
+        if (err) {
+          $submitBtn.val('Error: ' + err);
+          return;
+        }
+        $submitBtn.val('Member removed');
+      });
+    });
     converse.plugins.add('tandoori_debug_events', conversePlugins.tandoori_debug_events());
 
     converse.plugins.add('tandoori_autoconnect', conversePlugins.tandoori_autoconnect({

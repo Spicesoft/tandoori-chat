@@ -4,21 +4,91 @@
     <title>Tandoori chat</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link type="text/css" rel="stylesheet" media="screen" href="/javascripts/conversejs/css/converse.css" />
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.js"></script>
+
     <script data-main="/javascripts/conversejs/main" src="/javascripts/conversejs/components/requirejs/require.js"></script>
+
+    <style>
+      .box {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid black;
+      }
+      .hipchat-api:before {
+        content: "hipchat";
+        background-color: #bada55;
+        padding: 2px;
+        border: 1px solid green;
+      }
+      .tandoori:before {
+        content: "tandoori";
+        background-color: yellow;
+        padding: 2px;
+        border: 1px solid orange;
+      }
+      .xmpp:before {
+        content: "xmpp";
+        background-color: cyan;
+        padding: 2px;
+        border: 1px solid blue;
+      }
+    </style>
   </head>
   <body>
     <h1>Tandoori chat</h1>
     <p>Welcome to Tandoori chat</p>
-    <p>Ask the server to retrieve the XMPP/BOSH URL from Hipchat. In prod, it should be done automatically by the server and only once in a while (when the URL changes).</p>
-    <p><button id="get-bosh-url">Get BOSH URL</button></p>
-    <p>Ask the server to create a Hipchat user. In prod, it should be done automatically when a Tandoori user is created</p>
-    <p><button id="create-user">Create user</button></p>
-    <p>Get user info. In prod, this is done automatically and cached in localStorage.</p>
-    <p><button id="get-user-info">Get user info</button></p>
-    <p>Connect to chat. In prod, this is done automatically.</p>
-    <p><button id="connect-chat">Connect to chat</button></p>
-    <p><button id="disconnect-chat">Disconnect</button></p>
+    <div class="box tandoori">
+        <p>Ask the server to retrieve the XMPP/BOSH URL from Hipchat. In prod, it should be done automatically by the server and only once in a while (when the URL changes).</p>
+        <p><button id="get-bosh-url">Get BOSH URL</button></p>
+    </div>
+    <div class="box tandoori">
+        <p>Ask the server to create a Hipchat user. In prod, it should be done automatically when a Tandoori user is created</p>
+        <p><button id="create-user">Create user</button></p>
+    </div>
+    <div class="box hipchat-api">
+        <p>Get user info. In prod, this is done automatically and cached in localStorage.</p>
+        <p><button id="get-user-info">Get user info</button></p>
+    </div>
+    <div class="box xmpp">
+        <p>Connect to chat. In prod, this is done automatically.</p>
+        <p><button id="connect-chat">Connect to chat</button></p>
+        <p><button id="disconnect-chat">Disconnect</button></p>
+    </div>
+    <form class="box hipchat-api" id="create-room">
+        <p>
+            <label for="room-name">Room name:</label>
+            <input type="text" name="room-name" />
+        </p>
+        <p>
+            <label for="room-privacy">Private?:</label>
+            <input type="checkbox" name="room-privacy" />
+        </p>
+        <input type="submit" value="Create room"/>
+    </form>
 
+
+    <form class="box hipchat-api" id="add-member">
+        <p>
+            <label for="room-name">Room name:</label>
+            <input type="text" name="room-name" />
+        </p>
+        <p>
+            <label for="member-email">Member email:</label>
+            <input type="email" name="member-email" />
+        </p>
+        <input type="submit" value="Add member to private room"/>
+    </form>
+
+
+    <form class="box hipchat-api" id="remove-member">
+        <p>
+            <label for="room-name">Room name:</label>
+            <input type="text" name="room-name" />
+        </p>
+        <p>
+            <label for="member-email">Member email:</label>
+            <input type="email" name="member-email" />
+        </p>
+        <input type="submit" value="Remove member from private room"/>
+    </form>
   </body>
 </html>
