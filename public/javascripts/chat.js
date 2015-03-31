@@ -3,14 +3,14 @@ define([
   'jquery',
   'underscore',
   'converse',
-  '/javascripts/converse-plugins.js',
+  '/javascripts/tandoori-converse-plugin.js',
   '/javascripts/tandoori-api.js',
   '/javascripts/hipchat-api.js'
 ], function (
   $,
   _,
   converse,
-  conversePlugins,
+  TandooriPlugin,
   tandooriAPI,
   hipchatAPI
 ) {
@@ -97,7 +97,6 @@ define([
         $submitBtn.val('Room created:' + result.id);
       });
     });
-  }
 
     $('#add-member').submit(function (ev) {
       ev.preventDefault();
@@ -113,7 +112,6 @@ define([
         $submitBtn.val('Member added.');
       });
     });
-  function setupChat(boshURL, userInfo) {
 
     $('#remove-member').submit(function (ev) {
       ev.preventDefault();
@@ -128,16 +126,23 @@ define([
         $submitBtn.val('Member removed');
       });
     });
-    converse.plugins.add('tandoori_debug_events', conversePlugins.tandoori_debug_events());
 
-    converse.plugins.add('tandoori_autoconnect', conversePlugins.tandoori_autoconnect({
-      jid : userInfo.jid,
-      password : userInfo.password
-    }));
+  }
 
-    converse.plugins.add('tandoori_rooms', conversePlugins.tandoori_rooms({
-      username: userInfo.name
-    }));
+  function setupChat(boshURL, userInfo) {
+
+    // create our plugin
+    tandooriPlugin = new TandooriPlugin({
+      user : {
+        jid      : userInfo.jid,
+        password : userInfo.password,
+        username : userInfo.name
+      }
+    });
+    // plug it into converse
+    converse.plugins.add('tandoori', function (fullConverse) {
+      tandooriPlugin.init(fullConverse);
+    })
 
     converse.initialize({
       //bosh_service_url: '/http-bind/web-d13',
@@ -189,6 +194,7 @@ define([
     });
 
   }
+
 
   return {
     start : start

@@ -1750,9 +1750,7 @@
                 'click a.open-room': 'createChatRoom',
                 'click a.room-info': 'showRoomInfo',
                 'change input[name=server]': 'setDomain',
-                'change input[name=nick]': 'setNick',
-
-                'click button#refresh-rooms': 'showRooms'
+                'change input[name=nick]': 'setNick'
             },
 
             initialize: function (cfg) {

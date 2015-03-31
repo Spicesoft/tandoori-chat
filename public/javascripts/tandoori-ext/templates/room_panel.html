@@ -13,4 +13,17 @@
         <input type="button" class="right" name="show" id="show-rooms" value="{{label_show_rooms}}"/>
     </div>
 </form>
+
+<form class="create-chatroom">
+    <label>{{label_create_room_name}}</label>
+    <input type="text" name="chatroom" class="create-chatroom-name"
+        placeholder="{{label_create_room_name}}"/>
+    <label>{{label_create_room_privacy}}</label>
+    <input type="checkbox" name="create-chatroom-privacy" />
+    <div class="button-group">
+        <input type="submit" class="left" name="join" value="{{label_create_room}}"/>
+    </div>
+</form>
+
+<button id="refresh-rooms">Refresh</button>
 <dl id="available-chatrooms"></dl>
