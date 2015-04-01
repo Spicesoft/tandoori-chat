@@ -8,6 +8,7 @@ define([
   return function (plugin) {
     var converse = plugin.converse;
     return {
+      // replace template
       render: function () {
         this.$el.attr('id', this.model.get('box_id'))
                 .html(tpl_chatroom(this.model.toJSON()));
@@ -25,7 +26,12 @@ define([
         $message.attr('id', msgid);
 
         return this._super.onChatRoomMessage.apply(this, arguments);
+      },
+      sendChatRoomMessage: function (text) {
+        // disable slash-commands
+        this.createChatRoomMessage(text);
       }
+
     };
   };
 });

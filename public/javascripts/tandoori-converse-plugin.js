@@ -3,24 +3,26 @@ define([
   'strophe',
   'converse',
   '/javascripts/hipchat-api.js',
+  '/javascripts/tandoori-ext/ChatBoxView.js',
+  '/javascripts/tandoori-ext/ChatRoomOccupantsView.js',
+  '/javascripts/tandoori-ext/ChatRoomView.js',
+  '/javascripts/tandoori-ext/ContactsPanel.js',
   '/javascripts/tandoori-ext/ControlBoxView.js',
   '/javascripts/tandoori-ext/LoginPanel.js',
   '/javascripts/tandoori-ext/RoomsPanel.js',
-  '/javascripts/tandoori-ext/ContactsPanel.js',
-  '/javascripts/tandoori-ext/RosterContactView.js',
-  '/javascripts/tandoori-ext/ChatRoomView.js',
-  '/javascripts/tandoori-ext/ChatRoomOccupantsView.js',
+  '/javascripts/tandoori-ext/RosterContactView.js'
 ], function (
   S,
   conversePublic,
   hipchatAPI,
+  TandooriChatBoxView,
+  TandooriChatRoomOccupantsView,
+  TandooriChatRoomView,
+  TandooriContactsPanel,
   TandooriControlBoxView,
   TandooriLoginPanel,
   TandooriRoomsPanel,
-  TandooriContactsPanel,
-  TandooriRosterContactView,
-  TandooriChatRoomView,
-  TandooriChatRoomOccupantsView
+  TandooriRosterContactView
 ) {
   var Strophe = S.Strophe;
 
@@ -88,13 +90,14 @@ define([
     },
 
     patchConverse : function () {
+      this.extendConverseClass(this.converse.ChatBoxView, TandooriChatBoxView);
+      this.extendConverseClass(this.converse.ChatRoomOccupantsView, TandooriChatRoomOccupantsView);
+      this.extendConverseClass(this.converse.ChatRoomView, TandooriChatRoomView);
+      this.extendConverseClass(this.converse.ContactsPanel, TandooriContactsPanel);
       this.extendConverseClass(this.converse.ControlBoxView, TandooriControlBoxView);
       this.extendConverseClass(this.converse.LoginPanel, TandooriLoginPanel);
       this.extendConverseClass(this.converse.RoomsPanel, TandooriRoomsPanel);
-      this.extendConverseClass(this.converse.ContactsPanel, TandooriContactsPanel);
       this.extendConverseClass(this.converse.RosterContactView, TandooriRosterContactView);
-      this.extendConverseClass(this.converse.ChatRoomView, TandooriChatRoomView);
-      this.extendConverseClass(this.converse.ChatRoomOccupantsView, TandooriChatRoomOccupantsView);
     },
 
     extendConverseClass : function (ConverseClass, TandooriExtension) {
