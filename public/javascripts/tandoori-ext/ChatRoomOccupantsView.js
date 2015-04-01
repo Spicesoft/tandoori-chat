@@ -20,6 +20,7 @@ define(['jquery', 'underscore'], function ($, _) {
 
 
     return {
+      // connect invite widget to hipchat api
       initInviteWidget: function () {
           var $el = this.$('input.invited-contact');
           $el.typeahead({
@@ -45,7 +46,24 @@ define(['jquery', 'underscore'], function ($, _) {
               $(ev.target).typeahead('val', '');
           }, this));
           return this;
-      }
+      },
+
+      // keep unavailable members (displayed differently)
+      updateOccupantsOnPresence: function (pres) {
+          var occupant;
+          var data = this.parsePresence(pres);
+          switch (data.type) {
+              case 'error':
+                  return true;
+              default:
+                  occupant = this.model.get(data.id);
+                  if (occupant) {
+                      occupant.save(data);
+                  } else {
+                      this.model.create(data);
+                  }
+          }
+      },
     };
   };
 });

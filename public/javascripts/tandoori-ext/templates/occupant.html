@@ -1,0 +1,14 @@
+<li class="{{role}} {{type}}"
+    {[ if (role === "moderator") { ]}
+       title="{{desc_moderator}}"
+    {[ } ]}
+    {[ if (role === "participant" && type !== "unavailable") { ]}
+       title="{{desc_participant}}"
+    {[ } ]}
+    {[ if (role === "participant" && type === "unavailable") { ]}
+       title="{{desc_unavailable}}"
+    {[ } ]}
+    {[ if (role === "visitor") { ]}
+       title="{{desc_visitor}}"
+    {[ } ]}
+>{{nick}}</li>

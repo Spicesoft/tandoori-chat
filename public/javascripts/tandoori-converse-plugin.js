@@ -4,6 +4,7 @@ define([
   'converse',
   '/javascripts/hipchat-api.js',
   '/javascripts/tandoori-ext/ChatBoxView.js',
+  '/javascripts/tandoori-ext/ChatRoomOccupantView.js',
   '/javascripts/tandoori-ext/ChatRoomOccupantsView.js',
   '/javascripts/tandoori-ext/ChatRoomView.js',
   '/javascripts/tandoori-ext/ContactsPanel.js',
@@ -16,6 +17,7 @@ define([
   conversePublic,
   hipchatAPI,
   TandooriChatBoxView,
+  TandooriChatRoomOccupantView,
   TandooriChatRoomOccupantsView,
   TandooriChatRoomView,
   TandooriContactsPanel,
@@ -91,6 +93,7 @@ define([
 
     patchConverse : function () {
       this.extendConverseClass(this.converse.ChatBoxView, TandooriChatBoxView);
+      this.extendConverseClass(this.converse.ChatRoomOccupantView, TandooriChatRoomOccupantView);
       this.extendConverseClass(this.converse.ChatRoomOccupantsView, TandooriChatRoomOccupantsView);
       this.extendConverseClass(this.converse.ChatRoomView, TandooriChatRoomView);
       this.extendConverseClass(this.converse.ContactsPanel, TandooriContactsPanel);
