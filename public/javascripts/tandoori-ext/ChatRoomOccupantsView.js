@@ -31,6 +31,38 @@ define([
                 'click .remove-member' : 'removeMember'
             },
 
+            initialize: function () {
+                this.model.on('add', this.onOccupantAdded, this);
+                this.model.on('remove', this.onOccupantRemoved, this);
+            },
+            onOccupantRemoved: function (item) {
+                var id = item.get('id');
+                var view = this.get(id);
+                if (view) {
+                    delete view.model; // Remove ref to old model to help garbage collection
+                    view.$el.remove();
+                    this.remove(id);
+                }
+            },
+            setLoading : function (loading) {
+                if (loading === this.loading) {
+                    return;
+                }
+                this.loading = loading;
+                if (loading) {
+                    this.$el.find('span.spinner');
+                    this.$el.children().hide();
+                    this.$el.append('<span class="spinner"/>');
+                } else {
+                    this.$el.children().show();
+                    this.$el.find('span.spinner').remove();
+                }
+            },
+
+            showError : function (action, err) {
+
+            },
+
             // connect invite widget to hipchat api
             initInviteWidget: function () {
                 var $el = this.$('input.invited-contact');
@@ -51,10 +83,20 @@ define([
                     }
                 });
                 $el.on('typeahead:selected', $.proxy(function (ev, suggestion/*, dname */) {
+                    $(ev.target).typeahead('val', '');
                     var jid = suggestion.jid;
                     var room = this.chatroomview.model.get('name');
-                    plugin.addMemberToPrivateRoom(jid, room);
-                    $(ev.target).typeahead('val', '');
+
+                    this.setLoading(true);
+                    var self = this;
+                    plugin.addMemberToPrivateRoom(jid, room, function (err) {
+                        if (err) {
+                            self.showError('add-member', err);
+                        } else {
+                            // reload members?
+                        }
+                        self.setLoading(false);
+                    });
                 }, this));
                 return this;
             },
@@ -62,7 +104,17 @@ define([
             removeMember : function (ev) {
                 var jid = $(ev.currentTarget).parent().data('jid');
                 var room = this.chatroomview.model.get('name');
-                plugin.removeMemberFromPrivateRoom(jid, room);
+                this.setLoading(true);
+                var self = this;
+                plugin.removeMemberFromPrivateRoom(jid, room, function (err) {
+                    if (err) {
+                        self.showError('remove-member', err);
+                    } else {
+                        var member = self.model.findWhere({jid:jid});
+                        self.model.remove(member);
+                    }
+                    self.setLoading(false);
+                });
             },
 
             // keep unavailable members (displayed differently)

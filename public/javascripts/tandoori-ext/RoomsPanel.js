@@ -31,7 +31,7 @@ define([
                 // add a form to create a new Hipchat Room
                 'submit form.create-chatroom': 'apiCreateChatRoom',
                 // add a button to refresh room list
-                'click button#refresh-rooms': 'showRooms',
+                'click button#refresh-rooms': 'reloadRooms',
                 // add a button to delete a room
                 'click a.delete-room': 'apiDeleteChatRoom'
 
@@ -54,11 +54,31 @@ define([
                 this.$tabs = this.$parent.parent().find('#controlbox-tabs');
                 this.$tabs.append(converse.templates.chatrooms_tab({label_rooms: __('Rooms')}));
 
-                // TODO_TANDOORI: move to template?
+                // TODO_TANDOORI: remove completely?
                 // hide original room join form
                 this.$el.find('.add-chatroom').hide();
 
                 return this;
+            },
+
+            setLoading : function (loading) {
+                if (loading === this.loading) {
+                    return;
+                }
+                this.loading = loading;
+                if (loading) {
+                    this.$el.find('span.spinner');
+                    this.$el.children().hide();
+                    this.$el.append('<span class="spinner"/>');
+                } else {
+                    this.$el.children().show();
+                    this.$el.find('.add-chatroom').hide(); // keep this one hidden
+                    this.$el.find('span.spinner').remove();
+                }
+            },
+
+            showError : function (action, err) {
+
             },
 
             apiCreateChatRoom : function (ev) {
@@ -71,13 +91,38 @@ define([
                     privacy : private ? 'private' : 'public'
                 };
 
-                plugin.createChatRoom(params);
+                this.setLoading(true);
+                var self = this;
+                plugin.createChatRoom(params, function (err) {
+                    if (err) {
+                        self.showError('create-room', err);
+                        self.setLoading(false);
+                    } else {
+                        self.reloadRooms();
+                    }
+                });
+            },
+
+            reloadRooms : function () {
+                this.setLoading(true);
+                this.updateRoomsList();
             },
 
             apiDeleteChatRoom : function (ev) {
                 ev.preventDefault();
                 var name = $(ev.currentTarget).attr('data-room-name');
-                plugin.deleteChatRoom(name);
+
+                this.setLoading(true);
+                var self = this;
+                plugin.deleteChatRoom(name, function (err) {
+                    if (err) {
+                        self.showError('delete-room', err);
+                        self.setLoading(false);
+                    } else {
+                        // TODO_TANDOORI: just remove the line?
+                        self.reloadRooms();
+                    }
+                });
             },
 
             getOwner : function (stanza) {
@@ -93,6 +138,7 @@ define([
             },
 
             onRoomsFound: function (iq) {
+                this.setLoading(false);
                 /* Handle the IQ stanza returned from the server, containing
                  * all its public rooms.
                  */

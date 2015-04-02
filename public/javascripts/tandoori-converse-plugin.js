@@ -107,50 +107,26 @@ define([
             conversePublic.plugins.extend(ConverseClass, tandooriExtension(this));
         },
 
-        createChatRoom : function (params) {
+        createChatRoom : function (params, callback) {
             // user requested the creation of a new room
-            hipchatAPI.createRoom(params, function (err, result) {
-                if (err) {
-                    console.error('Room creation failed:', err);
-                    return;
-                }
-                console.log('Room creation:', result);
-            });
+            hipchatAPI.createRoom(params, callback);
         },
 
-        deleteChatRoom : function (roomName) {
+        deleteChatRoom : function (roomName, callback) {
             // user requested the removal of a room
-            hipchatAPI.deleteRoom(roomName, function (err/*, result */) {
-                if (err) {
-                    console.error('Room removal failed:', err);
-                    return;
-                }
-                console.log('Room removal: ok');
-            });
+            hipchatAPI.deleteRoom(roomName, callback);
         },
 
-        addMemberToPrivateRoom : function (jid, roomName) {
+        addMemberToPrivateRoom : function (jid, roomName, callback) {
             // user requested the addition of a member to a private room
             var userId = this.jidToId(jid);
-            hipchatAPI.addMemberToPrivateRoom(roomName, userId, function (err/*, result */) {
-                if (err) {
-                    console.error('Member addition failed:', err);
-                    return;
-                }
-                console.log('Member addition: ok');
-            });
+            hipchatAPI.addMemberToPrivateRoom(roomName, userId, callback);
         },
 
-        removeMemberFromPrivateRoom : function (jid, roomName) {
+        removeMemberFromPrivateRoom : function (jid, roomName, callback) {
             // user requested the removal of a member from a private room
             var userId = this.jidToId(jid);
-            hipchatAPI.removeMemberFromPrivateRoom(roomName, userId, function (err/*, result */) {
-                if (err) {
-                    console.error('Member removal failed:', err);
-                    return;
-                }
-                console.log('Member removal: ok');
-            });
+            hipchatAPI.removeMemberFromPrivateRoom(roomName, userId, callback);
         },
 
         jidToId : function (jid) {
