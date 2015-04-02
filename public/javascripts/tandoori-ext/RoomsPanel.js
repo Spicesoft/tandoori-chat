@@ -11,6 +11,7 @@ define([
   tpl_room_panel
 ) {
   var Strophe = S.Strophe;
+  var b64_sha1 = S.SHA1.b64_sha1;
 
   return function (plugin) {
     var converse = plugin.converse;
@@ -86,42 +87,89 @@ define([
           return $(stanza).find('x privacy').text();
       },
 
-        onRoomsFound: function (iq) {
-          /* Handle the IQ stanza returned from the server, containing
-           * all its public rooms.
-           */
-          var name, jid, i, fragment,
-              that = this,
-              $available_chatrooms = this.$el.find('#available-chatrooms');
-          this.rooms = $(iq).find('query').find('item');
-          if (this.rooms.length) {
-            // # For translators: %1$s is a variable and will be
-            // # replaced with the XMPP server name
-            // $available_chatrooms.html('<dt>'+__('Rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
-            $available_chatrooms.html('<dt>'+__('Rooms available')+'</dt>');// TODO_TANDOORI: i18n
+      onRoomsFound: function (iq) {
+        /* Handle the IQ stanza returned from the server, containing
+         * all its public rooms.
+         */
+        var name, rawName, jid, i, fragment,
+            that = this,
+            $available_chatrooms = this.$el.find('#available-chatrooms');
+        this.rooms = $(iq).find('query').find('item');
+        if (this.rooms.length) {
+          // # For translators: %1$s is a variable and will be
+          // # replaced with the XMPP server name
+          // $available_chatrooms.html('<dt>'+__('Rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
+          $available_chatrooms.html('<dt>'+__('Rooms available')+'</dt>');// TODO_TANDOORI: i18n
 
-            fragment = document.createDocumentFragment();
-            for (i=0; i<this.rooms.length; i++) {
-              name = Strophe.unescapeNode($(this.rooms[i]).attr('name')||$(this.rooms[i]).attr('jid'));
-              jid = $(this.rooms[i]).attr('jid');
-              var isOwner = this.testOwnership(this.rooms[i]);
-              var isPrivate = this.testPrivacy(this.rooms[i]);
-              // TODO_TANDOORI: display privacy & ownership
-              fragment.appendChild($(
-                  converse.templates.room_item({
-                      'name':name,
-                      'jid':jid,
-                      'open_title': __('Click to open this room'),
-                      'info_title': __('Show more information on this room')
-                      })
-                  )[0]);
-            }
-            $available_chatrooms.append(fragment);
-            $('input#show-rooms').show().siblings('span.spinner').remove();
-          } else {
-            this.informNoRoomsFound();
+          fragment = document.createDocumentFragment();
+          for (i=0; i<this.rooms.length; i++) {
+            rawName = $(this.rooms[i]).attr('name')
+            name = Strophe.unescapeNode(rawName || $(this.rooms[i]).attr('jid'));
+            jid = $(this.rooms[i]).attr('jid');
+            var isOwner = this.testOwnership(this.rooms[i]);
+            var isPrivate = this.testPrivacy(this.rooms[i]);
+            // TODO_TANDOORI: display privacy & ownership
+            var $el = $(converse.templates.room_item({
+                'name':name,
+                'jid':jid,
+                'open_title': __('Click to open this room'),
+                'info_title': __('Show more information on this room')
+                })
+            );
+            // inject raw name via jquery to avoid html injection in template
+            $el.find('.open-room').attr('data-room-name', rawName);
+
+            fragment.appendChild($el[0]);
           }
-          return true;
+          $available_chatrooms.append(fragment);
+          $('input#show-rooms').show().siblings('span.spinner').remove();
+        } else {
+          this.informNoRoomsFound();
+        }
+        return true;
+      },
+
+      createChatRoom: function (ev) {
+          ev.preventDefault();
+          var name, $name,
+              server, $server,
+              jid,
+              $nick = this.$el.find('input.new-chatroom-nick'),
+              nick = $nick.val(),
+              chatroom;
+
+          if (!nick) { $nick.addClass('error'); }
+          else { $nick.removeClass('error'); }
+
+          if (ev.type === 'click') {
+              jid = $(ev.target).attr('data-room-jid');
+              name = $(ev.target).attr('data-room-name'); // raw name
+          } else {
+              $name = this.$el.find('input.new-chatroom-name');
+              $server= this.$el.find('input.new-chatroom-server');
+              server = $server.val();
+              name = $name.val().trim().toLowerCase();
+              $name.val(''); // Clear the input
+              if (name && server) {
+                  jid = Strophe.escapeNode(name) + '@' + server;
+                  $name.removeClass('error');
+                  $server.removeClass('error');
+                  this.model.save({muc_domain: server});
+              } else {
+                  if (!name) { $name.addClass('error'); }
+                  if (!server) { $server.addClass('error'); }
+                  return;
+              }
+          }
+          if (!nick) { return; }
+          chatroom = converse.chatboxviews.showChat({
+              'id': jid,
+              'jid': jid,
+              'name': name || Strophe.unescapeNode(Strophe.getNodeFromJid(jid)),
+              'nick': nick,
+              'chatroom': true,
+              'box_id' : b64_sha1(jid)
+          });
       }
 
 

@@ -20,6 +20,10 @@ define(['jquery', 'underscore'], function ($, _) {
 
 
     return {
+      events : {
+        'click .remove-member' : 'removeMember'
+      },
+
       // connect invite widget to hipchat api
       initInviteWidget: function () {
           var $el = this.$('input.invited-contact');
@@ -46,6 +50,12 @@ define(['jquery', 'underscore'], function ($, _) {
               $(ev.target).typeahead('val', '');
           }, this));
           return this;
+      },
+
+      removeMember : function (ev) {
+        var jid = $(ev.currentTarget).parent().data('jid');
+        var room = this.chatroomview.model.get('name');
+        plugin.removeMemberFromPrivateRoom(jid, room);
       },
 
       // keep unavailable members (displayed differently)

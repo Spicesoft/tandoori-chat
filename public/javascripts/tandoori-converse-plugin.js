@@ -42,6 +42,7 @@ define([
   }
 
   TandooriPlugin.prototype = {
+
     init : function (converse) {
       this.converse = converse;
 
@@ -107,7 +108,7 @@ define([
       conversePublic.plugins.extend(ConverseClass, TandooriExtension(this));
     },
 
-    createChatRoom : function(ev, params) {
+    createChatRoom : function(params) {
       // user requested the creation of a new room
       hipchatAPI.createRoom(params, function (err, result) {
         if (err) {
@@ -118,10 +119,9 @@ define([
       });
     },
 
-    addMemberToPrivateRoom : function (jid, xmppRoomName) {
+    addMemberToPrivateRoom : function (jid, roomName) {
       // user requested the addition of a member to a private room
       var userId = this.jidToId(jid);
-      var roomName = this.xmppRoomNameToName(xmppRoomName);
       hipchatAPI.addMemberToPrivateRoom(roomName, userId, function (err, result) {
         if (err) {
           console.error('Member addition failed:', err);
@@ -131,16 +131,23 @@ define([
       });
     },
 
-    jidToId : function (jid) {
-      // example: 123456_1234567@chat.hipchat.com => 1234567
-      var jid_user = jid.split('@')[0] || '';
-      var id = jid_user.split('_')[1] || '';
-      return id;
+    removeMemberFromPrivateRoom : function (jid, roomName) {
+      // user requested the removal of a member from a private room
+      var userId = this.jidToId(jid);
+      hipchatAPI.removeMemberFromPrivateRoom(roomName, userId, function (err, result) {
+        if (err) {
+          console.error('Member removal failed:', err);
+          return;
+        }
+        console.log('Member removal: ok');
+      });
     },
 
-    xmppRoomNameToName : function (xmppRoomName) {
-      // example: 123456_kitchen => kitchen
-      return xmppRoomName.split('_')[1];
+    jidToId : function (jid) {
+      // example: 123456_1234567@chat.hipchat.com => 1234567
+      var userPart = jid.split('@')[0] || '';
+      var userId = userPart.split('_')[1] || '';
+      return userId;
     },
 
     /*

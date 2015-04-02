@@ -1,4 +1,5 @@
 <li class="{{role}} {{type}}"
+    data-jid="{{jid}}"
     {[ if (role === "moderator") { ]}
        title="{{desc_moderator}}"
     {[ } ]}
@@ -11,4 +12,7 @@
     {[ if (role === "visitor") { ]}
        title="{{desc_visitor}}"
     {[ } ]}
->{{nick}}</li>
+>
+<button class="remove-member">X</button>
+{{nick}}
+</li>
