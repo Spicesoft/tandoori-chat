@@ -119,6 +119,17 @@ define([
       });
     },
 
+    deleteChatRoom : function(roomName) {
+      // user requested the removal of a room
+      hipchatAPI.deleteRoom(roomName, function (err, result) {
+        if (err) {
+          console.error('Room removal failed:', err);
+          return;
+        }
+        console.log('Room removal: ok');
+      });
+    },
+
     addMemberToPrivateRoom : function (jid, roomName) {
       // user requested the addition of a member to a private room
       var userId = this.jidToId(jid);

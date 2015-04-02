@@ -3,12 +3,14 @@ define([
   'jquery',
   'strophe',
   'utils',
-  'tpl!/javascripts/tandoori-ext/templates/room_panel'
+  'tpl!/javascripts/tandoori-ext/templates/room_panel',
+  'tpl!/javascripts/tandoori-ext/templates/room_item'
 ], function (
   $,
   S,
   utils,
-  tpl_room_panel
+  tpl_room_panel,
+  tpl_room_item
 ) {
   var Strophe = S.Strophe;
   var b64_sha1 = S.SHA1.b64_sha1;
@@ -29,7 +31,10 @@ define([
         // add a form to create a new Hipchat Room
         'submit form.create-chatroom': 'apiCreateChatRoom',
         // add a button to refresh room list
-        'click button#refresh-rooms': 'showRooms'
+        'click button#refresh-rooms': 'showRooms',
+        // add a button to delete a room
+        'click a.delete-room': 'apiDeleteChatRoom'
+
       },
 
       render: function () {
@@ -71,7 +76,11 @@ define([
         plugin.createChatRoom(params);
       },
 
-
+      apiDeleteChatRoom : function (ev) {
+        ev.preventDefault();
+        var name = $(ev.currentTarget).attr('data-room-name');
+        plugin.deleteChatRoom(name);
+      },
 
       getOwner : function (stanza) {
         var owner_jid = $(stanza).find('x owner').text();
@@ -104,20 +113,21 @@ define([
 
             var owner = this.getOwner(this.rooms[i]);
             var privacy = this.getPrivacy(this.rooms[i]);
-            var isOwner = owner = converse.bare_jid;
+            var isOwner = (owner === converse.bare_jid);
 
-            // TODO_TANDOORI: display privacy & ownership
-            var $el = $(converse.templates.room_item({
+            // TODO_TANDOORI: display privacy?
+            var $el = $(tpl_room_item({
                 'name':name,
                 'jid':jid,
+                'owner': owner,
+                'privacy': privacy,
+                'deleteButton': isOwner,
                 'open_title': __('Click to open this room'),
                 'info_title': __('Show more information on this room')
                 })
             );
-            $el.find('.open-room')
-              .attr('data-room-name', rawName) // inject raw name via jquery to avoid html injection in template
-              .attr('data-room-privacy', privacy)
-              .attr('data-room-owner', owner);
+            $el.find('.open-room').attr('data-room-name', rawName); // inject raw name via jquery to avoid html injection in template
+            $el.find('.delete-room').attr('data-room-name', rawName);
 
             fragment.appendChild($el[0]);
           }

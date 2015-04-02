@@ -1,0 +1,15 @@
+<dd class="available-chatroom">
+<a class="open-room {{ deleteButton ? 'short-item' : '' }}"
+   data-room-jid="{{jid}}"
+   data-room-owner="{{owner}}"
+   data-room-privacy="{{privacy}}"
+   title="{{open_title}}"
+   href="#"
+>{{name}}</a>
+{[ if (deleteButton) { ]}
+  <a class="delete-room icon-close" data-room-jid="{{jid}}" href="#">&nbsp;</a>
+{[ } ]}
+<a class="room-info icon-room-info" data-room-jid="{{jid}}"
+   title="{{info_title}}" href="#">&nbsp;</a>
+
+</dd>

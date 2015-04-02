@@ -883,6 +883,11 @@
       display: none;
       clear: right;
     }
+    &.delete-room {
+      width: 15px;
+      display: none;
+      clear: right;
+    }
     &.open-room {
       float: left;
       white-space: nowrap;
@@ -900,9 +905,17 @@
     a.open-room {
       width: 150px;
     }
+    a.open-room.short-item {
+      width: 135px;
+    }
   }
 
   dd.available-chatroom:hover a.room-info {
+    display: inline-block;
+    font-size: 14px;
+  }
+
+  dd.available-chatroom:hover a.delete-room {
     display: inline-block;
     font-size: 14px;
   }
