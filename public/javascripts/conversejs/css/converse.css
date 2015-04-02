@@ -908,6 +908,16 @@
         font-style: italic;
         margin: 5px;
         display: block; }
+  #conversejs .chatroom .room-invite {
+    display: none; }
+  #conversejs .chatroom .remove-member {
+    display: none; }
+  #conversejs .chatroom.private-room.user-is-owner .room-invite {
+    display: block; }
+  #conversejs .chatroom.private-room.user-is-owner .remove-member {
+    display: inline; }
+  #conversejs .chatroom.private-room.user-is-owner .owner .remove-member {
+    display: none; }
   #conversejs .chatroom-form,
   #conversejs .controlbox-pane {
     background-color: white;

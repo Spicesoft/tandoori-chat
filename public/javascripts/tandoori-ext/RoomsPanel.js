@@ -73,17 +73,15 @@ define([
 
 
 
-      testOwnership : function (stanza) {
+      getOwner : function (stanza) {
         var owner_jid = $(stanza).find('x owner').text();
         if (owner_jid) {
           owner_jid = Strophe.getBareJidFromJid(owner_jid);
         }
-        var current_jid = converse.bare_jid;
-
-        return current_jid === owner_jid;
+        return owner_jid;
       },
 
-      testPrivacy : function (stanza) {
+      getPrivacy : function (stanza) {
           return $(stanza).find('x privacy').text();
       },
 
@@ -96,9 +94,6 @@ define([
             $available_chatrooms = this.$el.find('#available-chatrooms');
         this.rooms = $(iq).find('query').find('item');
         if (this.rooms.length) {
-          // # For translators: %1$s is a variable and will be
-          // # replaced with the XMPP server name
-          // $available_chatrooms.html('<dt>'+__('Rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
           $available_chatrooms.html('<dt>'+__('Rooms available')+'</dt>');// TODO_TANDOORI: i18n
 
           fragment = document.createDocumentFragment();
@@ -106,8 +101,11 @@ define([
             rawName = $(this.rooms[i]).attr('name')
             name = Strophe.unescapeNode(rawName || $(this.rooms[i]).attr('jid'));
             jid = $(this.rooms[i]).attr('jid');
-            var isOwner = this.testOwnership(this.rooms[i]);
-            var isPrivate = this.testPrivacy(this.rooms[i]);
+
+            var owner = this.getOwner(this.rooms[i]);
+            var privacy = this.getPrivacy(this.rooms[i]);
+            var isOwner = owner = converse.bare_jid;
+
             // TODO_TANDOORI: display privacy & ownership
             var $el = $(converse.templates.room_item({
                 'name':name,
@@ -116,8 +114,10 @@ define([
                 'info_title': __('Show more information on this room')
                 })
             );
-            // inject raw name via jquery to avoid html injection in template
-            $el.find('.open-room').attr('data-room-name', rawName);
+            $el.find('.open-room')
+              .attr('data-room-name', rawName) // inject raw name via jquery to avoid html injection in template
+              .attr('data-room-privacy', privacy)
+              .attr('data-room-owner', owner);
 
             fragment.appendChild($el[0]);
           }
@@ -129,10 +129,17 @@ define([
         return true;
       },
 
+      informNoRoomsFound: function () {
+          var $available_chatrooms = this.$el.find('#available-chatrooms');
+          $available_chatrooms.html('<dt>'+__('No rooms found') +'</dt>'); // TODO_TANDOORI: i18n
+          $('input#show-rooms').show().siblings('span.spinner').remove();
+      },
+
       createChatRoom: function (ev) {
           ev.preventDefault();
           var name, $name,
               server, $server,
+              privacy, owner,
               jid,
               $nick = this.$el.find('input.new-chatroom-nick'),
               nick = $nick.val(),
@@ -144,6 +151,8 @@ define([
           if (ev.type === 'click') {
               jid = $(ev.target).attr('data-room-jid');
               name = $(ev.target).attr('data-room-name'); // raw name
+              privacy = $(ev.target).attr('data-room-privacy');
+              owner = $(ev.target).attr('data-room-owner');
           } else {
               $name = this.$el.find('input.new-chatroom-name');
               $server= this.$el.find('input.new-chatroom-server');
@@ -167,7 +176,9 @@ define([
               'jid': jid,
               'name': name || Strophe.unescapeNode(Strophe.getNodeFromJid(jid)),
               'nick': nick,
+              'owner': owner,
               'chatroom': true,
+              'privacy': privacy || 'public',
               'box_id' : b64_sha1(jid)
           });
       }
