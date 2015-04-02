@@ -2,12 +2,14 @@
 <html>
   <head>
     <title>Tandoori chat</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <link type="text/css" rel="stylesheet" media="screen" href="/javascripts/conversejs/css/converse.css" />
-
     <script data-main="/javascripts/conversejs/main" src="/javascripts/conversejs/components/requirejs/require.js"></script>
 
     <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
       .box {
         margin: 5px;
         padding: 5px;
@@ -53,43 +55,6 @@
         <p><button id="connect-chat">Connect to chat</button></p>
         <p><button id="disconnect-chat">Disconnect</button></p>
     </div>
-    <form class="box hipchat-api" id="create-room">
-        <p>
-            <label for="room-name">Room name:</label>
-            <input type="text" name="room-name" />
-        </p>
-        <p>
-            <label for="room-privacy">Private?:</label>
-            <input type="checkbox" name="room-privacy" />
-        </p>
-        <input type="submit" value="Create room"/>
-    </form>
-
-
-    <form class="box hipchat-api" id="add-member">
-        <p>
-            <label for="room-name">Room name:</label>
-            <input type="text" name="room-name" />
-        </p>
-        <p>
-            <label for="member-email">Member email:</label>
-            <input type="email" name="member-email" />
-        </p>
-        <input type="submit" value="Add member to private room"/>
-    </form>
-
-
-    <form class="box hipchat-api" id="remove-member">
-        <p>
-            <label for="room-name">Room name:</label>
-            <input type="text" name="room-name" />
-        </p>
-        <p>
-            <label for="member-email">Member email:</label>
-            <input type="email" name="member-email" />
-        </p>
-        <input type="submit" value="Remove member from private room"/>
-    </form>
     <a href="/page2.html">Allez sur une page</a>
   </body>
 </html>
