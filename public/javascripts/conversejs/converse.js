@@ -74,7 +74,7 @@
             } else if (typeof attr === 'string') {
                 return item.get(attr).toLowerCase().indexOf(query.toLowerCase()) !== -1;
             } else {
-                throw new Error('Wrong attribute type. Must be string or array.');
+                throw new TypeError('contains: wrong attribute type. Must be string or array.');
             }
         };
     };
@@ -848,7 +848,7 @@
                         }
                         break;
                     default:
-                        throw new Error('Unknown type.');
+                        throw new TypeError('ChatBox.onSMP: Unknown type for SMP');
                 }
             },
 
@@ -1016,12 +1016,7 @@
 
                 this.updateVCard();
                 this.$el.insertAfter(converse.chatboxviews.get("controlbox").$el);
-                this.render().model.messages.fetch({add: true});
-                if (this.model.get('minimized')) {
-                    this.hide();
-                } else {
-                    this.show();
-                }
+                this.hide().render().model.messages.fetch({add: true});
                 if ((_.contains([UNVERIFIED, VERIFIED], this.model.get('otr_status'))) || converse.use_otr_by_default) {
                     this.model.initiateOTR();
                 }
@@ -1159,7 +1154,10 @@
                 if ((message.get('sender') != 'me') && (converse.windowState == 'blur')) {
                     converse.incrementMsgCounter();
                 }
-                return this.scrollDown();
+                this.scrollDown();
+                if (!this.model.get('minimized') && !this.$el.is(':visible')) {
+                    this.show();
+                }
             },
 
             sendMessageStanza: function (text) {
@@ -1617,7 +1615,7 @@
                     this.initDragResize();
                 }
                 this.setChatState(ACTIVE);
-                return this;
+                return this.focus();
             },
 
             scrollDown: function () {
@@ -1793,8 +1791,7 @@
             informNoRoomsFound: function () {
                 var $available_chatrooms = this.$el.find('#available-chatrooms');
                 // # For translators: %1$s is a variable and will be replaced with the XMPP server name
-                //$available_chatrooms.html('<dt>'+__('No rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
-                $available_chatrooms.html('<dt>'+__('No rooms available')+'</dt>');
+                $available_chatrooms.html('<dt>'+__('No rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
                 $('input#show-rooms').show().siblings('span.spinner').remove();
             },
 
@@ -1809,9 +1806,7 @@
                 if (this.rooms.length) {
                     // # For translators: %1$s is a variable and will be
                     // # replaced with the XMPP server name
-                    // $available_chatrooms.html('<dt>'+__('Rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
-                    $available_chatrooms.html('<dt>'+__('Rooms available')+'</dt>');// TODO_TANDOORI: i18n
-
+                    $available_chatrooms.html('<dt>'+__('Rooms on %1$s',this.model.get('muc_domain'))+'</dt>');
                     fragment = document.createDocumentFragment();
                     for (i=0; i<this.rooms.length; i++) {
                         name = Strophe.unescapeNode($(this.rooms[i]).attr('name')||$(this.rooms[i]).attr('jid'));
@@ -2191,11 +2186,7 @@
         });
 
         this.ChatRoomOccupants = Backbone.Collection.extend({
-            model: converse.ChatRoomOccupant,
-            initialize: function (options) {
-                this.browserStorage = new Backbone.BrowserStorage[converse.storage](
-                    b64_sha1('converse.occupants'+converse.bare_jid+options.nick));
-            }
+            model: converse.ChatRoomOccupant
         });
 
         this.ChatRoomOccupantsView = Backbone.Overview.extend({
@@ -2353,6 +2344,10 @@
                 this.occupantsview = new converse.ChatRoomOccupantsView({
                     model: new converse.ChatRoomOccupants({nick: this.model.get('nick')})
                 });
+                var id =  b64_sha1('converse.occupants'+converse.bare_jid+this.model.get('id')+this.model.get('nick'));
+                this.occupantsview.model.id = id; // Appears to be necessary for backbone.browserStorage
+                this.occupantsview.model.browserStorage = new Backbone.BrowserStorage[converse.storage](id);
+
                 this.occupantsview.chatroomview = this;
                 this.render();
                 this.occupantsview.model.fetch({add:true});
@@ -3078,6 +3073,8 @@
             },
 
             onMessage: function (message) {
+                /* Handler method for all incoming single-user chat "message" stanzas.
+                 */
                 var $message = $(message);
                 var contact_jid, $forwarded, $received, $sent,
                     msgid = $message.attr('id'),
@@ -3122,12 +3119,15 @@
 
                 chatbox = this.get(contact_jid);
                 if (!chatbox) {
-                    /* FIXME: there is a bug here. If chat state notifications
-                     * (because a roster contact closed a chat box of yours
-                     * they had open) are received and we don't have a chat with
-                     * the user, then a chat box is created here which then
-                     * opens automatically :(
+                    /* If chat state notifications (because a roster contact
+                     * closed a chat box of yours they had open) are received
+                     * and we don't have a chat with the user, then we do not
+                     * want to open a chat box. We only open a new chat box when
+                     * the message has a body.
                      */
+                    if ($message.find('body').length === 0) {
+                        return true;
+                    }
                     var fullname = roster_item.get('fullname');
                     fullname = _.isEmpty(fullname)? contact_jid: fullname;
                     chatbox = this.create({
@@ -3143,7 +3143,7 @@
                     // FIXME: There's still a bug here..
                     // If a duplicate message is received just after the chat
                     // box was closed, then it'll open again (due to it being
-                    // created here above), with now new messages.
+                    // created here above), with no new messages.
                     // The solution is mostly likely to not let chat boxes show
                     // automatically when they are created, but to require
                     // "show" to be called explicitly.
@@ -3280,7 +3280,6 @@
             showChat: function (attrs) {
                 /* Find the chat box and show it. If it doesn't exist, create it.
                  */
-                // TODO: Send the chat state ACTIVE to the contact once the chat box is opened.
                 var chatbox  = this.model.get(attrs.jid);
                 if (!chatbox) {
                     chatbox = this.model.create(attrs, {
@@ -5324,33 +5323,24 @@
                 this.onConnected();
             } else {
                 if (!this.bosh_service_url && ! this.websocket_url) {
-                    throw("Error: you must supply a value for the bosh_service_url or websocket_url");
+                    throw new Error("initConnection: you must supply a value for either the bosh_service_url or websocket_url or both.");
                 }
                 if (('WebSocket' in window || 'MozWebSocket' in window) && this.websocket_url) {
                     this.connection = new Strophe.Connection(this.websocket_url);
                 } else if (this.bosh_service_url) {
                     this.connection = new Strophe.Connection(this.bosh_service_url);
                 } else {
-                    throw("Error: this browser does not support websockets and no bosh_service_url specified.");
+                    throw new Error("initConnection: this browser does not support websockets and bosh_service_url wasn't specified.");
                 }
                 this.setUpXMLLogging();
 
-                if (this.prebind) {
-                    if (this.jid && this.sid && this.rid) {
-                        this.connection.attach(this.jid, this.sid, this.rid, this.onConnect);
-                    }
-                    if (!this.keepalive) {
-                        throw("If you use prebind and don't use keepalive, "+
-                              "then you MUST supply JID, RID and SID values");
-                    }
-                }
                 if (this.keepalive) {
                     rid = this.session.get('rid');
                     sid = this.session.get('sid');
                     jid = this.session.get('jid');
                     if (this.prebind) {
                         if (!this.jid) {
-                            throw("When using 'keepalive' with 'prebind, you must supply the JID of the current user.");
+                            throw new Error("initConnection: when using 'keepalive' with 'prebind, you must supply the JID of the current user.");
                         }
                         if (rid && sid && jid && Strophe.getBareJidFromJid(jid) === Strophe.getBareJidFromJid(this.jid)) {
                             this.session.save({rid: rid}); // The RID needs to be increased with each request.
@@ -5367,6 +5357,15 @@
                             this.session.save({rid: rid}); // The RID needs to be increased with each request.
                             this.connection.attach(jid, sid, rid, this.onConnect);
                         }
+                    }
+
+                // Prebind without keepalive
+                } else if (this.prebind) {
+                    if (this.jid && this.sid && this.rid) {
+                        this.connection.attach(this.jid, this.sid, this.rid, this.onConnect);
+                    } else {
+                        throw new Error("initConnection: If you use prebind and not keepalive, "+
+                            "then you MUST supply JID, RID and SID values");
                     }
                 }
             }
@@ -5432,6 +5431,7 @@
     var wrappedChatBox = function (chatbox) {
         var view = converse.chatboxviews.get(chatbox.get('jid'));
         return {
+            'open': $.proxy(view.show, view),
             'close': $.proxy(view.close, view),
             'endOTR': $.proxy(chatbox.endOTR, chatbox),
             'focus': $.proxy(view.focus, view),
@@ -5441,6 +5441,26 @@
             'minimize': $.proxy(chatbox.minimize, chatbox),
             'set': $.proxy(chatbox.set, chatbox)
         };
+    };
+
+    var getWrappedChatBox = function (jid) {
+        var chatbox = converse.chatboxes.get(jid);
+        if (!chatbox) {
+            var roster_item = converse.roster.get(jid);
+            if (roster_item === undefined) {
+                converse.log('Could not get roster item for JID '+jid, 'error');
+                return null;
+            }
+            chatbox = converse.chatboxes.create({
+                'id': jid,
+                'jid': jid,
+                'fullname': _.isEmpty(roster_item.get('fullname'))? jid: roster_item.get('fullname'),
+                'image_type': roster_item.get('image_type'),
+                'image': roster_item.get('image'),
+                'url': roster_item.get('url')
+            });
+        }
+        return wrappedChatBox(chatbox);
     };
 
     return {
@@ -5486,51 +5506,42 @@
                     return _transform(jids);
                 }
                 return _.map(jids, _transform);
+            },
+            'add': function (jid, name) {
+                if (typeof jid !== "string" || jid.indexOf('@') < 0) {
+                    throw new TypeError('contacts.add: invalid jid');
+                }
+                converse.connection.roster.add(jid, _.isEmpty(name)? jid: name, [], function (iq) {
+                    converse.connection.roster.subscribe(jid, null, converse.xmppstatus.get('fullname'));
+                });
+                return true;
             }
         },
         'chats': {
             'open': function (jids) {
-                var _transform = function (jid) {
-                    var chatbox = converse.chatboxes.get(jid);
-                    if (!chatbox) {
-                        var roster_item = converse.roster.get(jid);
-                        if (roster_item === undefined) {
-                            converse.log('Could not get roster item for JID '+jid, 'error');
-                            return null;
-                        }
-                        chatbox = converse.chatboxes.create({
-                            'id': jid,
-                            'jid': jid,
-                            'fullname': _.isEmpty(roster_item.get('fullname'))? jid: roster_item.get('fullname'),
-                            'image_type': roster_item.get('image_type'),
-                            'image': roster_item.get('image'),
-                            'url': roster_item.get('url')
-                        });
-                    }
-                    return wrappedChatBox(chatbox);
-                };
+                var chatbox;
                 if (typeof jids === "undefined") {
                     converse.log("chats.open: You need to provide at least one JID", "error");
                     return null;
                 } else if (typeof jids === "string") {
-                    return _transform(jids);
+                    chatbox = getWrappedChatBox(jids);
+                    chatbox.open();
+                    return chatbox;
                 }
-                return _.map(jids, _transform);
+                return _.map(jids, function (jid) {
+                    var chatbox = getWrappedChatBox(jid);
+                    chatbox.open();
+                    return chatbox;
+                });
             },
             'get': function (jids) {
-                var _transform = function (jid) {
-                    var chatbox = converse.chatboxes.get(jid);
-                    if (!chatbox) {
-                        return null;
-                    }
-                    return wrappedChatBox(chatbox);
-                };
                 if (typeof jids === "undefined") {
-                    jids = converse.roster.pluck('jid');
+                    converse.log("chats.get: You need to provide at least one JID", "error");
+                    return null;
                 } else if (typeof jids === "string") {
-                    return _transform(jids);
+                    return getWrappedChatBox(jids);
                 }
-                return _.filter(_.map(jids, _transform), function (i) {return i !== null;});
+                return _.map(jids, getWrappedChatBox);
             }
         },
         'tokens': {

@@ -39,7 +39,7 @@
                         <h1 class="brand-heading"><i class="icon-conversejs"></i>Converse.js</h1>
                         <p class="intro-text">Developer page.</p>
                         <p class="intro-text">
-                            Converse.js will only work on this page if you have
+                            Converse.js will only work on this page if you have 
                             <a href="https://conversejs.org/docs/html/development.html">set up the development environment</a>.
                         </p>
                     </div>
@@ -52,8 +52,7 @@
 <script>
     require(['converse'], function (converse) {
         converse.initialize({
-            //bosh_service_url: '/http-bind/web-d13',
-            bosh_service_url: 'https://tandoori.hipchat.com/http-bind/web-e16',
+            bosh_service_url: 'https://conversejs.org/http-bind/', // Please use this connection manager only for testing purposes
             i18n: locales['en'], // Refer to ./locale/locales.js to see which locales are supported
             keepalive: true,
             message_carbons: true,
