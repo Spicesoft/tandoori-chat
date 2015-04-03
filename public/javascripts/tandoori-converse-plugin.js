@@ -10,7 +10,8 @@ define([
     '/javascripts/tandoori-ext/ControlBoxView.js',
     '/javascripts/tandoori-ext/LoginPanel.js',
     '/javascripts/tandoori-ext/RoomsPanel.js',
-    '/javascripts/tandoori-ext/RosterContactView.js'
+    '/javascripts/tandoori-ext/RosterContactView.js',
+    '/javascripts/tandoori-ext/RosterView.js'
 ], function (
     S,
     conversePublic,
@@ -23,7 +24,8 @@ define([
     TandooriControlBoxView,
     TandooriLoginPanel,
     TandooriRoomsPanel,
-    TandooriRosterContactView
+    TandooriRosterContactView,
+    TandooriRosterView
 ) {
     var Strophe = S.Strophe;
 
@@ -101,6 +103,7 @@ define([
             this.extendConverseClass(this.converse.LoginPanel, TandooriLoginPanel);
             this.extendConverseClass(this.converse.RoomsPanel, TandooriRoomsPanel);
             this.extendConverseClass(this.converse.RosterContactView, TandooriRosterContactView);
+            this.extendConverseClass(this.converse.RosterView, TandooriRosterView);
         },
 
         extendConverseClass : function (ConverseClass, tandooriExtension) {
