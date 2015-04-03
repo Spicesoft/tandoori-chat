@@ -126,7 +126,6 @@ define([
 
             // keep unavailable members (displayed differently)
             updateOccupantsOnPresence: function (pres) {
-                console.log(pres);
                 var occupant;
                 var data = this.parsePresence(pres);
                 switch (data.type) {
