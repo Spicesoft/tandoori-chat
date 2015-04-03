@@ -47,6 +47,33 @@ define([
                     this.remove(id);
                 }
             },
+
+            onOccupantAdded: function (item) {
+                var view = this.get(item.get('id'));
+                if (!view) {
+                    view = this.add(item.get('id'), new converse.ChatRoomOccupantView({model: item}));
+                } else {
+                    delete view.model; // Remove ref to old model to help garbage collection
+                    view.model = item;
+                    view.initialize();
+                }
+                this.$('.participant-list').append(view.render().$el);
+                this.sortOccupants();
+            },
+
+            sortOccupants : function () {
+                var $list = this.$('.participant-list');
+                var self = this;
+
+                this.model.each(function (occupant) {
+                    // take occupants in order and append them
+                    var view = self.get(occupant.get('id'));
+                    if (view) {
+                        view.$el.appendTo($list);
+                    }
+                });
+            },
+
             setLoading : function (loading) {
                 if (loading === this.loading) {
                     return;
