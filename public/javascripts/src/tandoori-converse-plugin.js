@@ -117,15 +117,16 @@ define([
 
         patchSound : function () {
             var converse = this.converse;
+            var converseRoot = this.params.converseRoot;
 
             converse.playNotification = function () {
                 var audio;
                 if (converse.play_sounds && typeof Audio !== 'undefined'){
-                    audio = new Audio('/javascripts/conversejs/sounds/msg_received.ogg');
+                    audio = new Audio(converseRoot + '/sounds/msg_received.ogg');
                     if (audio.canPlayType('/audio/ogg')) {
                         audio.play();
                     } else {
-                        audio = new Audio('/javascripts/conversejs/sounds/msg_received.mp3');
+                        audio = new Audio(converseRoot + '/sounds/msg_received.mp3');
                         audio.play();
                     }
                 }

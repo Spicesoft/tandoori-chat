@@ -133,6 +133,7 @@ define([
 
         // create our plugin
         var tandooriPlugin = new TandooriPlugin({
+            converseRoot : '/javascripts/conversejs',
             user : {
                 jid      : userInfo.jid,
                 password : userInfo.password,
