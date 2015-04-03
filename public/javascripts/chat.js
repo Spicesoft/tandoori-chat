@@ -3,9 +3,9 @@ define([
     'underscore',
     'converse',
     'locales',
-    '/javascripts/tandoori-converse-plugin.js',
-    '/javascripts/tandoori-api.js',
-    '/javascripts/hipchat-api.js'
+    'src/tandoori-converse-plugin',
+    'src/tandoori-api',
+    'src/hipchat-api'
 ], function (
     $,
     _,

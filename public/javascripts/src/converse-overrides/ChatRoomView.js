@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'tpl!/javascripts/tandoori-ext/templates/chatroom'
+    'tpl!src/converse-overrides/templates/chatroom'
 ], function (
     $,
     tpl_chatroom

@@ -1,18 +1,18 @@
 define([
     'strophe',
     'converse',
-    '/javascripts/hipchat-api.js',
-    '/javascripts/tandoori-ext/ChatBoxView.js',
-    '/javascripts/tandoori-ext/ChatRoomOccupantView.js',
-    '/javascripts/tandoori-ext/ChatRoomOccupants.js',
-    '/javascripts/tandoori-ext/ChatRoomOccupantsView.js',
-    '/javascripts/tandoori-ext/ChatRoomView.js',
-    '/javascripts/tandoori-ext/ContactsPanel.js',
-    '/javascripts/tandoori-ext/ControlBoxView.js',
-    '/javascripts/tandoori-ext/LoginPanel.js',
-    '/javascripts/tandoori-ext/RoomsPanel.js',
-    '/javascripts/tandoori-ext/RosterContactView.js',
-    '/javascripts/tandoori-ext/RosterView.js'
+    'src/hipchat-api',
+    'src/converse-overrides/ChatBoxView',
+    'src/converse-overrides/ChatRoomOccupantView',
+    'src/converse-overrides/ChatRoomOccupants',
+    'src/converse-overrides/ChatRoomOccupantsView',
+    'src/converse-overrides/ChatRoomView',
+    'src/converse-overrides/ContactsPanel',
+    'src/converse-overrides/ControlBoxView',
+    'src/converse-overrides/LoginPanel',
+    'src/converse-overrides/RoomsPanel',
+    'src/converse-overrides/RosterContactView',
+    'src/converse-overrides/RosterView'
 ], function (
     S,
     conversePublic,
@@ -96,6 +96,8 @@ define([
         },
 
         patchConverse : function () {
+            this.patchSound();
+
             this.extendConverseClass(this.converse.ChatBoxView, TandooriChatBoxView);
             this.extendConverseClass(this.converse.ChatRoomOccupantView, TandooriChatRoomOccupantView);
             this.extendConverseClass(this.converse.ChatRoomOccupants, TandooriChatRoomOccupants);
@@ -111,6 +113,23 @@ define([
 
         extendConverseClass : function (ConverseClass, tandooriExtension) {
             conversePublic.plugins.extend(ConverseClass, tandooriExtension(this));
+        },
+
+        patchSound : function () {
+            var converse = this.converse;
+
+            converse.playNotification = function () {
+                var audio;
+                if (converse.play_sounds && typeof Audio !== 'undefined'){
+                    audio = new Audio('/javascripts/conversejs/sounds/msg_received.ogg');
+                    if (audio.canPlayType('/audio/ogg')) {
+                        audio.play();
+                    } else {
+                        audio = new Audio('/javascripts/conversejs/sounds/msg_received.mp3');
+                        audio.play();
+                    }
+                }
+            };
         },
 
         createChatRoom : function (params, callback) {

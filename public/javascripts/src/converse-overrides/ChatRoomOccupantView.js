@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'utils',
-    'tpl!/javascripts/tandoori-ext/templates/occupant'
+    'tpl!src/converse-overrides/templates/occupant'
 ], function (
     $,
     _,

@@ -3,8 +3,8 @@ define([
     'jquery',
     'strophe',
     'utils',
-    'tpl!/javascripts/tandoori-ext/templates/room_panel',
-    'tpl!/javascripts/tandoori-ext/templates/room_item'
+    'tpl!src/converse-overrides/templates/room_panel',
+    'tpl!src/converse-overrides/templates/room_item'
 ], function (
     $,
     S,

@@ -1,4 +1,3 @@
-
 define(['jquery'], function ($) {
 
     function createUser(callback) {
