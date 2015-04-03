@@ -1,13 +1,16 @@
 define([
     'jquery',
-    'underscore'
+    'underscore',
+    'utils'
 ], function (
     $,
-    _
+    _,
+    utils
 ) {
 
     return function (plugin) {
         var converse = plugin.converse;
+        var __ = $.proxy(utils.__, converse);
 
         var contains = function (attr, query) {
             return function (item) {
@@ -102,19 +105,23 @@ define([
             },
 
             removeMember : function (ev) {
+                var name = $(ev.currentTarget).parent().data('name');
                 var jid = $(ev.currentTarget).parent().data('jid');
                 var room = this.chatroomview.model.get('name');
-                this.setLoading(true);
-                var self = this;
-                plugin.removeMemberFromPrivateRoom(jid, room, function (err) {
-                    if (err) {
-                        self.showError('remove-member', err);
-                    } else {
-                        var member = self.model.findWhere({jid:jid});
-                        self.model.remove(member);
-                    }
-                    self.setLoading(false);
-                });
+
+                if (window.confirm(__('Are you sure you want to remove this member: "%1$s"?', name))) {
+                    this.setLoading(true);
+                    var self = this;
+                    plugin.removeMemberFromPrivateRoom(jid, room, function (err) {
+                        if (err) {
+                            self.showError('remove-member', err);
+                        } else {
+                            var member = self.model.findWhere({jid:jid});
+                            self.model.remove(member);
+                        }
+                        self.setLoading(false);
+                    });
+                }
             },
 
             // keep unavailable members (displayed differently)

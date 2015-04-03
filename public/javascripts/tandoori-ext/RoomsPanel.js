@@ -112,17 +112,19 @@ define([
                 ev.preventDefault();
                 var name = $(ev.currentTarget).attr('data-room-name');
 
-                this.setLoading(true);
-                var self = this;
-                plugin.deleteChatRoom(name, function (err) {
-                    if (err) {
-                        self.showError('delete-room', err);
-                        self.setLoading(false);
-                    } else {
-                        // TODO_TANDOORI: just remove the line?
-                        self.reloadRooms();
-                    }
-                });
+                if (window.confirm(__('Are you sure you want to delete this room: "%1$s"?', name))) {
+                    this.setLoading(true);
+                    var self = this;
+                    plugin.deleteChatRoom(name, function (err) {
+                        if (err) {
+                            self.showError('delete-room', err);
+                            self.setLoading(false);
+                        } else {
+                            // TODO_TANDOORI: just remove the line?
+                            self.reloadRooms();
+                        }
+                    });
+                }
             },
 
             getOwner : function (stanza) {
