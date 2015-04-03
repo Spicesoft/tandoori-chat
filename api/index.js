@@ -4,13 +4,6 @@ var getSessionData = require('./get_session');
 
 var hipchatParams;
 var client;
-var users = [];
-
-function findUser(id) {
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].id === id) return users[i];
-  }
-}
 
 var API = module.exports = {
 
@@ -42,8 +35,6 @@ var API = module.exports = {
       API.getAccessToken(user, function (err, token) {
         if (err) return callback(err);
         user.access_token = token;
-        // store user
-        users.push(user);
         callback(null, user);
       });
     });
@@ -54,7 +45,7 @@ var API = module.exports = {
     request.post({
       uri: 'https://api.hipchat.com/v2/oauth/token',
       auth: {
-        'bearer': ''
+        'bearer': hipchatParams.admin_token
       },
       json: true,
       body : {
@@ -66,34 +57,5 @@ var API = module.exports = {
       console.log(body.access_token);
       callback(err, body.access_token);
     });
-  },
-/*
-  sendMessage : function (senderId, message, callback) {
-    var token = findUser(senderId).access_token;
-    var room = '1352477';
-    client.notify(room, message, token, function () {
-      console.log(arguments);
-      callback();
-    })
-  },
-
-  sendPrivateMessage : function (senderId, message, callback) {
-    var token = findUser(senderId).access_token;
-    var receiverId = ''
-    request.post({
-      uri: 'https://api.hipchat.com/v2/user/' + receiverId + '/message',
-      auth: {
-        'bearer': token
-      },
-      json: true,
-      body : {
-        message   : message,
-        message_format: 'text',
-        notify: true
-      }
-    }, function (err, response, body) {
-      console.log(err, body);
-      callback();
-    });
-  }*/
-}
+  }
+};
