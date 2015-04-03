@@ -1,18 +1,4 @@
-var config;
-if (typeof(require) === 'undefined') {
-    /* XXX: Hack to work around r.js's stupid parsing.
-     * We want to save the configuration in a variable so that we can reuse it in
-     * tests/main.js.
-     */
-    require = {
-        config: function (c) {
-            config = c;
-        }
-    };
-}
-
 require.config({
-    //baseUrl: '.',
     baseUrl: 'javascripts/',
     paths: {
         "converse":                 "conversejs/converse",
@@ -171,17 +157,3 @@ require.config({
         'strophe.vcard':        { deps: ['strophe'] }
     }
 });
-
-if (typeof(require) === 'function') {
-    require(['chat'], function (chat) {
-      // util
-      // console.log as a callback
-      window.log = function log() {
-        console.log.apply(console, arguments);
-      }
-
-      chat.start();
-    });
-
-}
-

@@ -5,9 +5,9 @@
     // result of the build
     out: "./build/tandoori-chat.min.js",
     // entry point of the app
-    include: ['main'],
+    include: ['tandoori-chat'],
     // requirejs configuration (same main.js file)
-    mainConfigFile: 'main.js',
+    mainConfigFile: 'require.config.js',
     // pick the converse version here
     paths: {
         "converse-dependencies":  "conversejs/src/deps-no-otr"
