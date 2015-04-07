@@ -18,6 +18,7 @@ define('tandoori-chat', [
             // create our plugin
             var tandooriPlugin = new TandooriPlugin({
                 converseRoot : '/javascripts/conversejs',
+                mucDomain    : 'conf.hipchat.com',
                 user : {
                     jid      : userInfo.jid,
                     password : userInfo.password,
