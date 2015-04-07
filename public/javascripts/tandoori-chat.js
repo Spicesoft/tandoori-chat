@@ -53,8 +53,13 @@ define('tandoori-chat', [
                 this.startConverse(boshURL, userInfo);
             } else {
                 // get jid
+                var self = this;
                 hipchatAPI.getUser(userInfo.id, function (err, info) {
-                    debugger;
+                    if (err) {
+                        throw new Error('Could not retrieve user JID');
+                    }
+                    userInfo.jid = info.xmpp_jid;
+                    self.startConverse(boshURL, userInfo);
                 });
             }
 
