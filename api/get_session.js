@@ -1,7 +1,8 @@
-var request = require('request')
+/* jshint devel:true, node:true */
+var request = require('request');
 
 // keep cookies between requests
-var cookieJar = request.jar()
+var cookieJar = request.jar();
 request = request.defaults({jar: cookieJar});
 
 function logInAndGetSessionData(params, callback) {
@@ -12,7 +13,7 @@ function logInAndGetSessionData(params, callback) {
     console.log('Posting log in form:');
     logIn(params, token, function (err) {
       if (err) return callback(err);
-      console.log('Logged in.')
+      console.log('Logged in.');
       console.log('Getting session data:');
       getSessionData(params, function (err, session) {
         if (session) {
