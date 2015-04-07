@@ -10,22 +10,70 @@ define('tandoori-chat', [
     TandooriPlugin,
     hipchatAPI
 ) {
+    var DEV = (location.hostname === 'localhost');
+
     return {
-        start : function (boshURL, userInfo) {
+        checkParameters : function (parameters) {
+            if (!parameters) {
+                throw new Error('Missing parameters.');
+            }
+            if (!parameters.bosh_url) {
+                throw new Error('Missing bosh_url.');
+            }
 
-            hipchatAPI.setAccessToken(userInfo.access_token);
+            if (!parameters.user) {
+                throw new Error('Missing user parameters.');
+            }
 
+            if (!parameters.user.hipchat_access_token) {
+                throw new Error('Missing hipchat_access_token.');
+            }
+
+            if (!parameters.user.hipchat_name) {
+                throw new Error('Missing hipchat_name.');
+            }
+
+            if (!parameters.user.hipchat_password) {
+                throw new Error('Missing hipchat_password.');
+            }
+
+            if (!parameters.user.id) {
+                throw new Error('Missing id.');
+            }
+        },
+        start : function (parameters) {
+            this.checkParameters(parameters);
+
+            var boshURL = parameters.bosh_url;
+            var userInfo = parameters.user;
+
+            hipchatAPI.setAccessToken(userInfo.hipchat_access_token);
+
+            if (userInfo.jid) {
+                this.startConverse(boshURL, userInfo);
+            } else {
+                // get jid
+                hipchatAPI.getUser(userInfo.id, function (err, info) {
+                    debugger;
+                });
+            }
+
+        },
+        startConverse : function (boshURL, userInfo) {
             // create our plugin
             var tandooriPlugin = new TandooriPlugin({
-                converseRoot : '/javascripts/conversejs',
+                converseRoot : '/site_media/static/tandoori_chat/',
                 mucDomain    : 'conf.hipchat.com',
                 user : {
                     jid      : userInfo.jid,
-                    password : userInfo.password,
-                    username : userInfo.name
+                    password : userInfo.hipchat_password,
+                    username : userInfo.hipchat_name
                 }
             });
-            window.tandooriPlugin = tandooriPlugin;
+
+            if (DEV) {
+                window.tandooriPlugin = tandooriPlugin;
+            }
 
             // plug it into converse
             converse.plugins.add('tandoori', function (fullConverse) {
@@ -35,7 +83,7 @@ define('tandoori-chat', [
             converse.initialize({
                 bosh_service_url: boshURL,
                 i18n: locales['fr'], // Refer to ./locale/locales.js to see which locales are supported
-                debug: true,
+                debug: DEV,
 
                 allow_contact_removal: false,
                 allow_contact_requests: false,

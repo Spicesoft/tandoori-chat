@@ -3,9 +3,11 @@
   <head>
     <title>Tandoori chat</title>
     <link type="text/css" rel="stylesheet" media="screen" href="/javascripts/conversejs/css/converse.css" />
-    <script src="/javascripts/build/tandoori-chat.min.js"></script>
-    <script src="/javascripts/example.js"></script>
-
+    <script
+      id="tandoori-chat-script"
+      src="/javascripts/build/tandoori-chat.min.js"
+      data-initial-parameters="{&quot;bosh_url&quot;: &quot;https://floriancargoet.hipchat.com/http-bind/web-c11&quot;, &quot;user&quot;: {&quot;hipchat_access_token&quot;: &quot;frykCepboxx0F7DqZCKQuMf1mOkCBfLhpbYyH5sr&quot;, &quot;hipchat_password&quot;: &quot;Cj16SjOIqhzq&quot;, &quot;id&quot;: &quot;1988350&quot;, &quot;hipchat_name&quot;: &quot;Louis Yvon&quot;}}"
+    ></script>
 
     <style>
       body {
@@ -40,23 +42,5 @@
   <body>
     <h1>Tandoori chat</h1>
     <p>Welcome to Tandoori chat</p>
-    <div class="box tandoori">
-        <p>Ask the server to retrieve the XMPP/BOSH URL from Hipchat. In prod, it should be done automatically by the server and only once in a while (when the URL changes).</p>
-        <p><button id="get-bosh-url">Get BOSH URL</button></p>
-    </div>
-    <div class="box tandoori">
-        <p>Ask the server to create a Hipchat user. In prod, it should be done automatically when a Tandoori user is created</p>
-        <p><button id="create-user">Create user</button></p>
-    </div>
-    <div class="box hipchat-api">
-        <p>Get user info. In prod, this is done automatically and cached in localStorage.</p>
-        <p><button id="get-user-info">Get user info</button></p>
-    </div>
-    <div class="box xmpp">
-        <p>Connect to chat. In prod, this is done automatically.</p>
-        <p><button id="connect-chat">Connect to chat</button></p>
-        <p><button id="disconnect-chat">Disconnect</button></p>
-    </div>
-    <a href="/page2.html">Allez sur une page</a>
   </body>
 </html>

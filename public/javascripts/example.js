@@ -1,11 +1,13 @@
 require([
     'jquery',
     'tandoori-chat',
-    'src/hipchat-api'
+    'src/hipchat-api',
+    'src/tandoori-api'
 ], function (
     $,
     chat,
-    hipchatAPI
+    hipchatAPI,
+    tandooriAPI
 ) {
 
     // in this example, we load parameters from localstorage
@@ -13,13 +15,16 @@ require([
 
     var boshURL = localStorage.getItem('boshURL');
     var userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.access_token) {
-        hipchatAPI.setAccessToken(userInfo.access_token);
+    if (userInfo && userInfo.hipchat_access_token) {
+        hipchatAPI.setAccessToken(userInfo.hipchat_access_token);
     }
 
     // auto start
     if (boshURL && userInfo) {
-        chat.start(boshURL, userInfo);
+        chat.start({
+            bosh_url : boshURL,
+            user : userInfo
+        });
     }
 
     $('#get-bosh-url').click(function () {
@@ -46,8 +51,13 @@ require([
             }
             $el.html('User created: ' + user.name);
             console.log(user);
-            userInfo = user;
-            hipchatAPI.setAccessToken(userInfo.access_token);
+            userInfo = {
+                hipchat_access_token: user.access_token,
+                hipchat_name: user.name,
+                hipchat_password: user.password,
+                id: user.id
+            };
+            hipchatAPI.setAccessToken(userInfo.hipchat_access_token);
         });
     });
 
@@ -55,7 +65,7 @@ require([
         var $el = $(this);
         $el.html('Getting user info...');
 
-        hipchatAPI.getUser(userInfo.email, function (err, info) {
+        hipchatAPI.getUser(userInfo.id, function (err, info) {
             if (err) {
                 $el.html('Error: ' + err);
                 return;

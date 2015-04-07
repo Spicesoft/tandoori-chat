@@ -5,11 +5,15 @@
     // result of the build
     out: "./build/tandoori-chat.min.js",
     // entry point of the app
-    include: ['tandoori-chat'],
+    include: ['tandoori-autostart'],
     // requirejs configuration (same main.js file)
     mainConfigFile: 'require.config.js',
     // pick the converse version here
     paths: {
         "converse-dependencies":  "conversejs/src/deps-no-otr"
-    }
+    },
+    optimize:"none",
+    wrap: true,
+
+    insertRequire: ['tandoori-autostart'],
 })
