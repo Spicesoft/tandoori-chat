@@ -12,8 +12,7 @@ if (typeof(require) === 'undefined') {
 }
 
 require.config({
-    //baseUrl: '.',
-    baseUrl: '/javascripts/conversejs/',
+    baseUrl: '.',
     paths: {
         "backbone":                 "components/backbone/backbone",
         "backbone.browserStorage":  "components/backbone.browserStorage/backbone.browserStorage",
@@ -178,16 +177,4 @@ if (typeof(require) === 'function') {
     require(["converse"], function(converse) {
         window.converse = converse;
     });
-
-    require(['../chat'], function (chat) {
-      // util
-      // console.log as a callback
-      window.log = function log() {
-        console.log.apply(console, arguments);
-      }
-
-      chat.start();
-    });
-
 }
-
