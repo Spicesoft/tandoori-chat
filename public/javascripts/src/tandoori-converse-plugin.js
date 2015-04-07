@@ -99,6 +99,7 @@ define([
 
         patchConverse : function () {
             this.patchSound();
+            this.patchMessageCounter();
 
             this.extendConverseClass(this.converse.ChatBoxView, TandooriChatBoxView);
             this.extendConverseClass(this.converse.ChatRoomOccupantView, TandooriChatRoomOccupantView);
@@ -131,6 +132,24 @@ define([
                         audio = new Audio(converseRoot + '/sounds/msg_received.mp3');
                         audio.play();
                     }
+                }
+            };
+        },
+
+        // fix regex to work with untitled pages and auto-triming
+        patchMessageCounter : function () {
+            var converse = this.converse;
+            converse.updateMsgCounter = function () {
+                if (this.msg_counter > 0) {
+                    if (document.title.search(/^Messages \(\d+\)/) == -1) {
+                        document.title = "Messages (" + this.msg_counter + ") " + document.title;
+                    } else {
+                        document.title = document.title.replace(/^Messages \(\d+\)/, "Messages (" + this.msg_counter + ")");
+                    }
+                    window.blur();
+                    window.focus();
+                } else if (document.title.search(/^Messages \(\d+\)/) != -1) {
+                    document.title = document.title.replace(/^Messages \(\d+\)/, "");
                 }
             };
         },
