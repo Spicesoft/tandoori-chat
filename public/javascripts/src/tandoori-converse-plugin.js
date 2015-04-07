@@ -1,4 +1,5 @@
 define([
+    'underscore',
     'strophe',
     'converse',
     'src/hipchat-api',
@@ -14,6 +15,7 @@ define([
     'src/converse-overrides/RosterContactView',
     'src/converse-overrides/RosterView'
 ], function (
+    _,
     S,
     conversePublic,
     hipchatAPI,
@@ -204,6 +206,18 @@ define([
             try { this.converse.clearSession();                        } catch (e) {}
             try { this.converse._tearDown();                           } catch (e) {}
             try { this.converse.connection.disconnect();               } catch (e) {}
+
+            // in some cases (404) the closeAllChatBoxes fails
+            // let's close them ourselves
+            var boxes = this.converse.chatboxviews.getAll();
+            _.each(boxes, function (view, key) {
+                if (key !== 'controlbox') {
+                    view.close();
+                    // the strophe handler is not cleaned on disconnect
+                    // we delete it so that a new one is set up in connect()
+                    delete view.handler;
+                }
+            });
         },
 
         recover404 : function () {
