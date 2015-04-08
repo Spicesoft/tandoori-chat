@@ -19,7 +19,7 @@ define(['jquery'], function ($) {
                 callback(null, result);
             },
             error : function (xhr, status, err) {
-                callback(err);
+                callback(new Error(err));
             }
         });
     }

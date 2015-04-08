@@ -11,7 +11,7 @@ define(['jquery'], function ($) {
                 callback(null, result.user);
             },
             error : function (xhr, status, err) {
-                callback(err);
+                callback(new Error(err));
             }
         });
     }
@@ -28,7 +28,7 @@ define(['jquery'], function ($) {
                 callback(null, result.bosh_url);
             },
             error : function (xhr, status, err) {
-                callback(err);
+                callback(new Error(err));
             }
         });
     }
