@@ -939,8 +939,8 @@
     text-align: center;
     width: 100%;
     height: 289px;
-    height: -webkit-calc(100% - 44px);
-    height: calc(100% - 44px); }
+    height: -webkit-calc(100% - 44px - 25px);
+    height: calc(100% - 44px - 25px); }
   #conversejs .controlbox-pane {
     padding: 5px 0;
     overflow-y: hidden; }
@@ -949,6 +949,25 @@
       margin-bottom: 0; }
     #conversejs .controlbox-pane dd.odd {
       background-color: #DCEAC5; }
+  #conversejs .status-bar {
+    position: absolute;
+    bottom: 0;
+    height: 25px;
+    width: 100%;
+    padding: 0 2px; }
+    #conversejs .status-bar .status-message {
+      display: inline-block;
+      width: 175px;
+      line-height: 25px; }
+    #conversejs .status-bar .clear-status {
+      display: inline-block;
+      width: 14px;
+      line-height: 25px; }
+    #conversejs .status-bar.status-none .clear-status {
+      display: none; }
+    #conversejs .status-bar.status-error {
+      color: #D8000C;
+      background-color: #FFBABA; }
   #conversejs #converse-register .title {
     font-weight: bold; }
   #conversejs #converse-register .info {

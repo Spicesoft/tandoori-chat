@@ -78,7 +78,18 @@ define([
             },
 
             showError : function (action, err) {
-
+                var controlbox = converse.chatboxviews.get('controlbox');
+                console.log(action, err);
+                switch (action) {
+                    case 'create-room':
+                        controlbox.setStatus('error', __('Could not create the room'));
+                        break;
+                    case 'delete-room':
+                        controlbox.setStatus('error', __('Could not delete the room'));
+                        break;
+                    default:
+                        controlbox.clearStatus();
+                }
             },
 
             apiCreateChatRoom : function (ev) {
@@ -92,6 +103,7 @@ define([
                 };
 
                 this.setLoading(true);
+                this.showError('');
                 var self = this;
                 plugin.createChatRoom(params, function (err) {
                     if (err) {
@@ -105,6 +117,7 @@ define([
 
             reloadRooms : function () {
                 this.setLoading(true);
+                this.showError('');
                 this.updateRoomsList();
             },
 
@@ -114,6 +127,7 @@ define([
 
                 if (window.confirm(__('Are you sure you want to delete this room: "%1$s"?', name))) {
                     this.setLoading(true);
+                    this.showError('');
                     var self = this;
                     plugin.deleteChatRoom(name, function (err) {
                         if (err) {

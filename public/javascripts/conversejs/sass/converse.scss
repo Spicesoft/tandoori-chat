@@ -1105,7 +1105,7 @@
     text-align: center;
     width: 100%;
     height: 289px;
-    @include calc(height, '100% - #{$chat-head-height}');
+    @include calc(height, '100% - #{$chat-head-height} - #{$chat-status-bar-height}');
   }
 
   .controlbox-pane {
@@ -1119,6 +1119,39 @@
       background-color: #DCEAC5;
     }
   }
+
+  .status-bar {
+    position: absolute;
+    bottom: 0;
+    height: $chat-status-bar-height;
+    width: 100%;
+    padding: 0 2px;
+
+    .status-message {
+      display: inline-block;
+      width: 175px;
+      line-height: $chat-status-bar-height;
+    }
+
+    .clear-status {
+      display: inline-block;
+      width: 14px;
+      line-height: $chat-status-bar-height;
+    }
+
+    &.status-none .clear-status {
+      display:none;
+    }
+
+    &.status-error {
+      color: #D8000C;
+      background-color: #FFBABA;
+    }
+    &.status-info {
+
+    }
+  }
+
 
   #converse-register {
     .title {
