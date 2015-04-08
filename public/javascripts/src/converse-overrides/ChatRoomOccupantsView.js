@@ -90,7 +90,18 @@ define([
             },
 
             showError : function (action, err) {
-
+                var controlbox = converse.chatboxviews.get('controlbox');
+                console.log(action, err);
+                switch (action) {
+                    case 'add-member':
+                        controlbox.setStatus('error', __('Could not add member'));
+                        break;
+                    case 'remove-member':
+                        controlbox.setStatus('error', __('Could not remove member'));
+                        break;
+                    default:
+                        controlbox.clearStatus();
+                }
             },
 
             // connect invite widget to hipchat api
@@ -118,6 +129,7 @@ define([
                     var room = this.chatroomview.model.get('name');
 
                     this.setLoading(true);
+                    this.showError('');
                     var self = this;
                     plugin.addMemberToPrivateRoom(jid, room, function (err) {
                         if (err) {
@@ -138,6 +150,7 @@ define([
 
                 if (window.confirm(__('Are you sure you want to remove this member: "%1$s"?', name))) {
                     this.setLoading(true);
+                    this.showError('');
                     var self = this;
                     plugin.removeMemberFromPrivateRoom(jid, room, function (err) {
                         if (err) {
@@ -166,7 +179,7 @@ define([
                             this.model.create(data);
                         }
                 }
-            },
+            }
         };
     };
 });
