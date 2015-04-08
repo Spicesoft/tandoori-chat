@@ -14,7 +14,7 @@ define([
                   'max-height' : '100%' // instead of calc(100% - 26px)
                 });
                 return this;
-            },
+            }
         };
     };
 });
