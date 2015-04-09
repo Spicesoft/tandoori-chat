@@ -29,23 +29,31 @@
          ],
          "This contact is busy": [
             null,
-            ""
+            "Ce contact est occupé"
          ],
          "This contact is online": [
             null,
-            ""
+            "Ce contact est en ligne"
          ],
          "This contact is offline": [
             null,
-            ""
+            "Ce contact est hors ligne"
+         ],
+         "This contact is unavailable": [
+            null,
+            "Ce contact n'est pas disponible"
          ],
          "This contact is away for an extended period": [
             null,
-            ""
+            "Ce contact est absent pour une longue durée"
          ],
          "This contact is away": [
             null,
-            ""
+            "Ce contact est absent"
+         ],
+         "Click to hide these contacts": [
+            null,
+            "Cliquer pour masquer ces contacts"
          ],
          "My contacts": [
             null,
@@ -61,7 +69,7 @@
          ],
          "Ungrouped": [
             null,
-            ""
+            "Non groupés"
          ],
          "Contacts": [
             null,
@@ -69,7 +77,11 @@
          ],
          "Groups": [
             null,
-            ""
+            "Groupes"
+         ],
+         "Reconnecting": [
+            null,
+            "Reconnexion"
          ],
          "Error": [
             null,
@@ -77,7 +89,7 @@
          ],
          "Connecting": [
             null,
-            "Connection"
+            "Connexion"
          ],
          "Authenticating": [
             null,
@@ -115,21 +127,25 @@
             null,
             "Message personnel"
          ],
+         "Are you sure you want to clear the messages from this room?": [
+            null,
+            "Êtes-vous sûr de vouloir effacer les messages de ce salon ?"
+         ],
          "me": [
             null,
-            ""
+            "moi"
          ],
          "is typing": [
             null,
-            ""
+            "est en train d'écrire"
          ],
          "has stopped typing": [
             null,
-            ""
+            "a arrêté d'écrire"
          ],
          "has gone away": [
             null,
-            ""
+            "est parti"
          ],
          "Show this menu": [
             null,
@@ -145,11 +161,11 @@
          ],
          "Are you sure you want to clear the messages from this chat box?": [
             null,
-            ""
+            "Êtes-vous sûr de vouloir effacer les messages de cette discussion ?"
          ],
          "Your message could not be sent": [
             null,
-            ""
+            "Votre message n'a pas pu être envoyé"
          ],
          "We received an unencrypted message": [
             null,
@@ -181,7 +197,11 @@
          ],
          "has gone offline": [
             null,
-            ""
+            "s'est déconnecté"
+         ],
+         "is busy": [
+            null,
+            "est occupé"
          ],
          "Your messages are not encrypted anymore": [
             null,
@@ -215,13 +235,17 @@
             null,
             ""
          ],
+         "Clear all messages": [
+            null,
+            "Effacer tous les messages"
+         ],
          "End encrypted conversation": [
             null,
             ""
          ],
          "Hide the list of participants": [
             null,
-            ""
+            "Masquer la liste des participants"
          ],
          "Refresh encrypted conversation": [
             null,
@@ -247,6 +271,10 @@
             null,
             ""
          ],
+         "Insert a smiley": [
+            null,
+            "Insérer un smiley"
+         ],
          "Online": [
             null,
             "En ligne"
@@ -262,6 +290,10 @@
          "Offline": [
             null,
             "Déconnecté"
+         ],
+         "Log out": [
+            null,
+            "Se déconnecter"
          ],
          "Contact name": [
             null,
@@ -281,7 +313,7 @@
          ],
          "Click to add new chat contacts": [
             null,
-            "Cliquez pour ajouter de nouveaux contacts"
+            "Cliquer pour ajouter de nouveaux contacts"
          ],
          "Add a contact": [
             null,
@@ -297,7 +329,7 @@
          ],
          "Room name": [
             null,
-            "Numéro de salon"
+            "Nom du salon"
          ],
          "Nickname": [
             null,
@@ -306,6 +338,10 @@
          "Server": [
             null,
             "Serveur"
+         ],
+         "Join Room": [
+            null,
+            "Rejoindre"
          ],
          "Show rooms": [
             null,
@@ -401,15 +437,19 @@
          ],
          "Invite...": [
             null,
-            ""
+            "Inviter..."
+         ],
+         "Occupants": [
+            null,
+            "Participants :"
          ],
          "You are about to invite %1$s to the chat room \"%2$s\". ": [
             null,
-            ""
+            "Vous êtes sur le point d'inviter %1$s dans le salon \"%2$s\". "
          ],
          "You may optionally include a message, explaining the reason for the invitation.": [
             null,
-            ""
+            "Vous pouvez inclure un message expliquant la raison de l'invitation"
          ],
          "Message": [
             null,
@@ -423,9 +463,21 @@
             null,
             ""
          ],
+         "Ban user from room": [
+            null,
+            "Bannir l'utilisateur du salon."
+         ],
          "Change user role to participant": [
             null,
             ""
+         ],
+         "Kick user from room": [
+            null,
+            "Expulser l'utilisateur du salon."
+         ],
+         "Write in 3rd person": [
+            null,
+            "Écrire à la troisième personne"
          ],
          "Grant membership to a user": [
             null,
@@ -446,6 +498,10 @@
          "Revoke user's membership": [
             null,
             ""
+         ],
+         "Set room topic": [
+            null,
+            "Indiquer le sujet du salon"
          ],
          "Allow muted user to post messages": [
             null,
@@ -595,21 +651,41 @@
             null,
             ""
          ],
+         "Click to restore this chat": [
+            null,
+            "Cliquer pour restaurer ce chat"
+         ],
          "Minimized": [
             null,
-            ""
+            "Réduit"
          ],
          "Click to remove this contact": [
             null,
-            "Cliquez pour supprimer ce contact"
+            "Cliquer pour supprimer ce contact"
+         ],
+         "Click to accept this contact request": [
+            null,
+            "Cliquer pour accepter cette requête"
+         ],
+         "Click to decline this contact request": [
+            null,
+            "Cliquer pour refuser cette requête"
          ],
          "Click to chat with this contact": [
             null,
-            "Cliquez pour discuter avec ce contact"
+            "Cliquer pour discuter avec ce contact"
+         ],
+         "Are you sure you want to remove this contact?": [
+            null,
+            "Êtes-vous sûr de vouloir supprimer ce contact ?"
+         ],
+         "Are you sure you want to decline this contact request?": [
+            null,
+            "Êtes-vous sûr de vouloir refuser cette requête ?"
          ],
          "Type to filter": [
             null,
-            ""
+            "Filtre"
          ],
          "I am %1$s": [
             null,
@@ -617,11 +693,11 @@
          ],
          "Click here to write a custom status message": [
             null,
-            "Cliquez ici pour indiquer votre statut personnel"
+            "Cliquer ici pour indiquer votre statut personnel"
          ],
          "Click to change your chat status": [
             null,
-            "Cliquez pour changer votre statut"
+            "Cliquer pour changer votre statut"
          ],
          "Custom status": [
             null,
@@ -657,11 +733,11 @@
          ],
          "here": [
             null,
-            ""
+            "ici"
          ],
          "Register": [
             null,
-            ""
+            "S'enregistrer"
          ],
          "Sorry, the given provider does not support in band account registration. Please try with a different provider.": [
             null,
@@ -677,7 +753,7 @@
          ],
          "Now logging you in": [
             null,
-            ""
+            "Connexion en cours"
          ],
          "Registered successfully": [
             null,
@@ -687,9 +763,13 @@
             null,
             ""
          ],
-         "The provider rejected your registration attempt. ": [
+         "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
             null,
             ""
+         ],
+         "XMPP Username:": [
+            null,
+            "Nom d'utilisateur XMPP/Jabber"
          ],
          "Password:": [
             null,
@@ -705,7 +785,59 @@
          ],
          "Toggle chat": [
             null,
-            ""
+            "Ouvrir le chat"
+         ],
+         "This user is unavailable": [
+            null,
+            "Cet utilisateur n'est pas disponible"
+         ],
+         "Could not add member": [
+            null,
+            "Impossible d'ajouter ce membre"
+         ],
+         "Could not remove member": [
+            null,
+            "Impossible de supprimer ce membre"
+         ],
+         "Are you sure you want to remove this member: \"%1$s\"?": [
+            null,
+            "Êtes-vous sûr de vouloir supprimer ce membre : \"%1$s\" ?"
+         ],
+         "New room name": [
+            null,
+            "Nom du salon"
+         ],
+         "Private": [
+            null,
+            "Privé"
+         ],
+         "Create room": [
+            null,
+            "Créer un salon"
+         ],
+         "Refresh list": [
+            null,
+            "Rafraîchir la liste"
+         ],
+         "Could not create the room": [
+            null,
+            "Vous n'êtes pas autorisé à créer des salons"
+         ],
+         "Could not delete the room": [
+            null,
+            "Impossible de supprimer le salon"
+         ],
+         "Are you sure you want to delete this room: \"%1$s\"?": [
+            null,
+            "Êtes-vous sûr de vouloir supprimer ce salon : \"%1$s\" ?"
+         ],
+         "Rooms available": [
+            null,
+            "Salons disponibles"
+         ],
+         "No rooms found": [
+            null,
+            "Aucun salon trouvé"
          ]
       }
    }

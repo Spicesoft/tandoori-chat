@@ -49,7 +49,8 @@ define([
                         'label_show_rooms': __('Show rooms'),
                         'label_create_room_name' : __('New room name'),
                         'label_create_room_privacy' : __('Private'),
-                        'label_create_room': __('Create room')
+                        'label_create_room': __('Create room'),
+                        'label_refresh_rooms': __('Refresh list')
                     })).hide());
                 this.$tabs = this.$parent.parent().find('#controlbox-tabs');
                 this.$tabs.append(converse.templates.chatrooms_tab({label_rooms: __('Rooms')}));
