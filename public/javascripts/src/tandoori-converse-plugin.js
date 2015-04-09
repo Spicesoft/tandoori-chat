@@ -51,13 +51,14 @@ define([
         init : function (converse) {
             this.converse = converse;
 
+            // add features to converse
+            this.patchConverse();
+
             this.setupStrophe404Interceptor();
 
             this.debugEvents();
             // connect to chat immediately after page load
             this.autoconnect();
-            // add features to converse
-            this.patchConverse();
         },
 
         /*
@@ -81,7 +82,8 @@ define([
                     var reqStatus = 0;
                     try {
                         reqStatus = req.xhr.status;
-                    } catch (e) {
+                    }
+                    catch (e) {
                         // ignore errors from undefined status attribute. works around a browser bug
                     }
                     if (reqStatus >= 400 && reqStatus < 500) {
@@ -128,7 +130,8 @@ define([
                     audio = new Audio(converseRoot + '/sounds/msg_received.ogg');
                     if (audio.canPlayType('/audio/ogg')) {
                         audio.play();
-                    } else {
+                    }
+                    else {
                         audio = new Audio(converseRoot + '/sounds/msg_received.mp3');
                         audio.play();
                     }
@@ -141,15 +144,17 @@ define([
             var converse = this.converse;
             converse.updateMsgCounter = function () {
                 if (this.msg_counter > 0) {
-                    if (document.title.search(/^Messages \(\d+\)/) == -1) {
-                        document.title = "Messages (" + this.msg_counter + ") " + document.title;
-                    } else {
-                        document.title = document.title.replace(/^Messages \(\d+\)/, "Messages (" + this.msg_counter + ")");
+                    if (document.title.search(/^Messages \(\d+\)/) === -1) {
+                        document.title = 'Messages (' + this.msg_counter + ') ' + document.title;
+                    }
+                    else {
+                        document.title = document.title.replace(/^Messages \(\d+\)/, 'Messages (' + this.msg_counter + ')');
                     }
                     window.blur();
                     window.focus();
-                } else if (document.title.search(/^Messages \(\d+\)/) != -1) {
-                    document.title = document.title.replace(/^Messages \(\d+\)/, "");
+                }
+                else if (document.title.search(/^Messages \(\d+\)/) !== -1) {
+                    document.title = document.title.replace(/^Messages \(\d+\)/, '');
                 }
             };
         },
@@ -201,7 +206,8 @@ define([
                     // auto connect
                     console.log('Forcing connection...');
                     self.connect();
-                } else {
+                }
+                else {
                     console.log('Connecting...');
                 }
             });
