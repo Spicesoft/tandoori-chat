@@ -3,10 +3,10 @@
         'text!en',
         'text!fr'
         ], function ($, Jed, en, fr) {
-            root.locales = {
+            var locales = {
                 en: en,
                 fr : fr
             };
-            return root.locales;
+            return locales;
         });
 })(this);

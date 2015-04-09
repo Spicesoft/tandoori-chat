@@ -1,11 +1,13 @@
 require.config({
     baseUrl: 'javascripts/',
     paths: {
+        "config":                   "config-dev",
+        "converse-dependencies":    "converse-deps",
+
         "converse":                 "conversejs/converse",
         "backbone":                 "conversejs/components/backbone/backbone",
         "backbone.browserStorage":  "conversejs/components/backbone.browserStorage/backbone.browserStorage",
         "backbone.overview":        "conversejs/components/backbone.overview/backbone.overview",
-        "converse-dependencies":    "conversejs/src/deps-no-otr",
         "converse-templates":       "conversejs/src/templates",
         "eventemitter":             "conversejs/components/otr/build/dep/eventemitter",
         "jquery":                   "conversejs/components/jquery/dist/jquery",
@@ -47,7 +49,7 @@ require.config({
         "otr":                  "conversejs/src/otr",
 
         // Locales paths
-        "locales":   "conversejs/src/locales",
+        "locales":   "locales-en-fr",
         "jed":       "conversejs/components/jed/jed",
         "af":        "conversejs/locale/af/LC_MESSAGES/converse.json",
         "de":        "conversejs/locale/de/LC_MESSAGES/converse.json",
@@ -155,12 +157,5 @@ require.config({
         'strophe.register':     { deps: ['strophe'] },
         'strophe.roster':       { deps: ['strophe'] },
         'strophe.vcard':        { deps: ['strophe'] }
-    },
-
-    config : {
-        'tandoori-chat' : {
-            debug : true,
-            staticRoot : '/javascripts/conversejs/'
-        }
     }
 });

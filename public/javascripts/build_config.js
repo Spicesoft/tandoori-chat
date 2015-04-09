@@ -10,19 +10,14 @@
     mainConfigFile: 'require.config.js',
     // pick the converse version here
     paths: {
-        "converse-dependencies" : "conversejs/src/deps-no-otr",
+        "config"                : "config-prod",
+        "converse-dependencies" : "converse-deps",
         "locales"               : "locales-en-fr",
         "jquery"                : "conversejs/src/jquery-external",
         "jquery-private"        : "conversejs/src/jquery-private-external"
     },
-//    optimize:"none",
+    optimize:"none",
     wrap: true,
 
-    insertRequire: ['tandoori-autostart'],
-    config: {
-        'tandoori-chat': {
-            debug: false,
-            staticRoot: '/site_media/static/tandoori_chat/'
-        }
-    }
+    insertRequire: ['tandoori-autostart']
 })

@@ -1,18 +1,17 @@
 // main module
 define('tandoori-chat', [
-    'module',
+    'config',
     'converse',
     'locales',
     'src/tandoori-converse-plugin',
     'src/hipchat-api'
 ], function (
-    module,
+    config,
     converse,
     locales,
     TandooriPlugin,
     hipchatAPI
 ) {
-    var config = module.config();
 
     return {
         checkParameters : function (parameters) {
