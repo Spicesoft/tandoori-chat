@@ -10,10 +10,11 @@
     mainConfigFile: 'require.config.js',
     // pick the converse version here
     paths: {
-        "converse-dependencies":  "conversejs/src/deps-no-otr"
+        "converse-dependencies" : "conversejs/src/deps-no-otr",
+        "locales"               : "locales-en-fr"
     },
-    optimize:"none",
+//    optimize:"none",
     wrap: true,
 
-    insertRequire: ['tandoori-autostart'],
+    insertRequire: ['tandoori-autostart']
 })
