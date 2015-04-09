@@ -56,11 +56,18 @@ define([
 
             this.setupStrophe404Interceptor();
 
-            this.debugEvents();
+            if (this.params.debug) {
+                this.debugEvents();
+            }
             // connect to chat immediately after page load
             this.autoconnect();
         },
 
+        log : function () {
+            if (this.params.debug) {
+                console.log.apply(console, arguments);
+            }
+        },
         /*
          * When a 404 occurs, Strophe disconnects and is left in a bad state (can't
          * reconnect automatically).
@@ -95,7 +102,7 @@ define([
 
         interceptStrophe404 : function () {
             // a 404 error has occured, Strophe is disconnecting
-            console.log('A 404 error has been detected, trying to recover.');
+            this.log('A 404 error has been detected, trying to recover.');
             this.recover404();
         },
 
@@ -204,11 +211,11 @@ define([
             converse.on('initialized', function () {
                 if (!converse.connection.connected) {
                     // auto connect
-                    console.log('Forcing connection...');
+                    self.log('Forcing connection...');
                     self.connect();
                 }
                 else {
-                    console.log('Connecting...');
+                    self.log('Connecting...');
                 }
             });
         },

@@ -79,7 +79,6 @@ define([
 
             showError : function (action, err) {
                 var controlbox = converse.chatboxviews.get('controlbox');
-                console.log(action, err);
                 switch (action) {
                     case 'create-room':
                         controlbox.setStatus('error', __('Could not create the room'));

@@ -91,7 +91,6 @@ define([
 
             showError : function (action, err) {
                 var controlbox = converse.chatboxviews.get('controlbox');
-                console.log(action, err);
                 switch (action) {
                     case 'add-member':
                         controlbox.setStatus('error', __('Could not add member'));
