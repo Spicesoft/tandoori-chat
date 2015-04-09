@@ -110,7 +110,7 @@ define('tandoori-chat', [
                 forward_messages: false, // TODO: test if solve missing message from hipchat
                 fullname: null,
                 hide_muc_server: true,
-                hide_offline_users: false,
+                hide_offline_users: true,
                 play_sounds: true,
                 prebind: false, // TODO: try (require server prebind)
                 prebind_url: null,
