@@ -11,7 +11,9 @@
     // pick the converse version here
     paths: {
         "converse-dependencies" : "conversejs/src/deps-no-otr",
-        "locales"               : "locales-en-fr"
+        "locales"               : "locales-en-fr",
+        "jquery"                : "conversejs/src/jquery-external",
+        "jquery-private"        : "conversejs/src/jquery-private-external"
     },
 //    optimize:"none",
     wrap: true,
