@@ -155,5 +155,12 @@ require.config({
         'strophe.register':     { deps: ['strophe'] },
         'strophe.roster':       { deps: ['strophe'] },
         'strophe.vcard':        { deps: ['strophe'] }
+    },
+
+    config : {
+        'tandoori-chat' : {
+            debug : true,
+            staticRoot : '/javascripts/conversejs/'
+        }
     }
 });

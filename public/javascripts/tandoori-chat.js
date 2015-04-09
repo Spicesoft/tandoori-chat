@@ -1,16 +1,18 @@
 // main module
 define('tandoori-chat', [
+    'module',
     'converse',
     'locales',
     'src/tandoori-converse-plugin',
     'src/hipchat-api'
 ], function (
+    module,
     converse,
     locales,
     TandooriPlugin,
     hipchatAPI
 ) {
-    var DEV = (location.hostname === 'localhost');
+    var config = module.config();
 
     return {
         checkParameters : function (parameters) {
@@ -67,7 +69,8 @@ define('tandoori-chat', [
         startConverse : function (boshURL, userInfo) {
             // create our plugin
             var tandooriPlugin = new TandooriPlugin({
-                converseRoot : '/site_media/static/tandoori_chat/',
+                debug        : config.debug,
+                converseRoot : config.staticRoot || '/',
                 mucDomain    : 'conf.hipchat.com',
                 user : {
                     jid      : userInfo.jid,
@@ -76,7 +79,7 @@ define('tandoori-chat', [
                 }
             });
 
-            if (DEV) {
+            if (config.debug) {
                 window.tandooriPlugin = tandooriPlugin;
             }
 
@@ -88,7 +91,7 @@ define('tandoori-chat', [
             converse.initialize({
                 bosh_service_url: boshURL,
                 i18n: locales['fr'], // Refer to ./locale/locales.js to see which locales are supported
-                debug: DEV,
+                debug: config.debug,
 
                 allow_contact_removal: false,
                 allow_contact_requests: false,

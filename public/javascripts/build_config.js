@@ -16,5 +16,11 @@
 //    optimize:"none",
     wrap: true,
 
-    insertRequire: ['tandoori-autostart']
+    insertRequire: ['tandoori-autostart'],
+    config: {
+        'tandoori-chat': {
+            debug: false,
+            staticRoot: '/site_media/static/tandoori_chat/'
+        }
+    }
 })
