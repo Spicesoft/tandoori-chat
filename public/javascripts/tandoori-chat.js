@@ -69,7 +69,7 @@ define('tandoori-chat', [
             // create our plugin
             var tandooriPlugin = new TandooriPlugin({
                 debug        : config.debug,
-                converseRoot : config.staticRoot || '/',
+                converseRoot : config.staticRootURL || '/',
                 mucDomain    : 'conf.hipchat.com',
                 user : {
                     jid      : userInfo.jid,
