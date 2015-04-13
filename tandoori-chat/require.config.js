@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: 'javascripts/',
+    baseUrl: 'tandoori-chat/',
     paths: {
         "config":                   "config-dev",
         "converse-dependencies":    "converse-deps",
