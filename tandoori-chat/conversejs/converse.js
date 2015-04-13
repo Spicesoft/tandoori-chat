@@ -1554,6 +1554,7 @@
                                 label_verify_with_fingerprints: __('Verify with fingerprints'),
                                 label_verify_with_smp: __('Verify with SMP'),
                                 label_whats_this: __("What\'s this?"),
+                                label_insert_smiley: __("Insert a smiley"),
                                 otr_status_class: OTR_CLASS_MAPPING[data.otr_status],
                                 otr_translated_status: OTR_TRANSLATED_MAPPING[data.otr_status],
                                 show_call_button: converse.visible_toolbar_buttons.call,
