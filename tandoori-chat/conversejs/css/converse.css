@@ -7,8 +7,8 @@
  */
 @font-face {
   font-family: 'Converse-js';
-  src: url("../fonticons/fonts/icomoon.eot?-mnoxh0");
-  src: url("../fonticons/fonts/icomoon.eot?#iefix-mnoxh0") format("embedded-opentype"), url("../fonticons/fonts/icomoon.woff?-mnoxh0") format("woff"), url("../fonticons/fonts/icomoon.ttf?-mnoxh0") format("truetype"), url("../fonticons/fonts/icomoon.svg?-mnoxh0#icomoon") format("svg");
+  src: url("../fonticons/fonts/icomoon.eot?-8mi60f");
+  src: url("../fonticons/fonts/icomoon.eot?#iefix-8mi60f") format("embedded-opentype"), url("../fonticons/fonts/icomoon.woff?-8mi60f") format("woff"), url("../fonticons/fonts/icomoon.ttf?-8mi60f") format("truetype"), url("../fonticons/fonts/icomoon.svg?-8mi60f#icomoon") format("svg");
   font-weight: normal;
   font-style: normal; }
 .icon-conversejs {
@@ -232,6 +232,8 @@
     content: "\2b26"; }
   #conversejs .icon-radio-unchecked:before {
     content: "\2b25"; }
+  #conversejs .icon-reload:before {
+    content: "\ea2e"; }
   #conversejs .icon-remove:before {
     content: "\e02d"; }
   #conversejs .icon-room-info:before {
