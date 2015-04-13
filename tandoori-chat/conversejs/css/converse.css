@@ -793,6 +793,12 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden; }
+  #conversejs a.reload-rooms {
+    float: right;
+    position: relative;
+    display: block;
+    top: 8px;
+    right: 4px; }
   #conversejs dd.available-chatroom {
     display: inline-block;
     overflow-x: hidden;

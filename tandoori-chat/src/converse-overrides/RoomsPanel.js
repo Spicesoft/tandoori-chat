@@ -31,7 +31,7 @@ define([
                 // add a form to create a new Hipchat Room
                 'submit form.create-chatroom': 'apiCreateChatRoom',
                 // add a button to refresh room list
-                'click button#refresh-rooms': 'reloadRooms',
+                'click a.reload-rooms': 'reloadRooms',
                 // add a button to delete a room
                 'click a.delete-room': 'apiDeleteChatRoom'
 

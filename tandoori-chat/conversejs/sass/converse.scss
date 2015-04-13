@@ -901,6 +901,15 @@
       text-overflow: ellipsis;
       overflow-x: hidden;
     }
+
+    &.reload-rooms {
+      float: right;
+      position: relative;
+      display: block;
+      top: 8px;
+      right: 4px;
+    }
+
   }
 
   dd.available-chatroom {
