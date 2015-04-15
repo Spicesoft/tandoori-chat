@@ -32,6 +32,7 @@ define([
     TandooriRosterView
 ) {
     var Strophe = S.Strophe;
+    var $iq = S.$iq;
 
     /*
      * this.converse is the private instance of the Converse library
@@ -44,6 +45,7 @@ define([
 
     function TandooriPlugin(params) {
         this.params = params;
+        this.pingCounter = 0;
     }
 
     TandooriPlugin.prototype = {
@@ -253,6 +255,31 @@ define([
         recover404 : function () {
             this.cleanDisconnect();
             this.connect();
+        },
+
+        startPingingServer : function (interval) {
+            var self = this;
+            this.pingIntervalId = setInterval(function () {
+                self.pingServer();
+            }, interval || 30000);
+        },
+        stopPingingServer : function () {
+            clearInterval(this.pingIntervalId);
+            delete this.pingIntervalId;
+        },
+        pingServer : function () {
+            this.pingCounter++;
+            var ping = $iq({
+                to   : 'chat.hipchat.com',
+                type : 'get',
+                id   : 'ping-' + this.pingCounter
+            }).c('ping', {xmlns: 'urn:xmpp:ping'});
+            this.converse.connection.sendIQ(ping, this.onPongSuccess, this.onPongError);
+        },
+        onPongSuccess : function () {
+        },
+        onPongError : function () {
+            console.error('Ping failed!');
         },
 
         /*
