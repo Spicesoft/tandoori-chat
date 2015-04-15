@@ -132,16 +132,14 @@ define([
             var converseRoot = this.params.converseRoot;
 
             converse.playNotification = function () {
-                var audio;
-                if (converse.play_sounds && typeof Audio !== 'undefined'){
-                    audio = new Audio(converseRoot + '/sounds/msg_received.ogg');
-                    if (audio.canPlayType('/audio/ogg')) {
-                        audio.play();
+                if (!this.audioNotification && converse.play_sounds && typeof Audio !== 'undefined'){
+                    this.audioNotification = new Audio(converseRoot + '/sounds/msg_received.ogg');
+                    if (!this.audioNotification.canPlayType('audio/ogg')) {
+                        this.audioNotification = new Audio(converseRoot + '/sounds/msg_received.mp3');
                     }
-                    else {
-                        audio = new Audio(converseRoot + '/sounds/msg_received.mp3');
-                        audio.play();
-                    }
+                }
+                if (this.audioNotification) {
+                    this.audioNotification.play();
                 }
             };
         },

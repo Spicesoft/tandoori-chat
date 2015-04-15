@@ -1,7 +1,7 @@
 define([], function () {
     return {
         debug         : true,
-        staticRootURL : '/javascripts/conversejs/',
+        staticRootURL : '/tandoori-chat/conversejs',
         apiURL        : '/'
     };
 });
