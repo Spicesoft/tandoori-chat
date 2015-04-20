@@ -66,8 +66,6 @@ define([
                 }
                 if (this.isAdmin(contact)) {
                     groups = [HEADER_ADMINS];
-                    //contact.save({groups : groups}, {silent: true});
-                    console.info('admin', contact);
                 }
                 _.each(groups, $.proxy(function (name) {
                     this.addContactToGroup(contact, name);
