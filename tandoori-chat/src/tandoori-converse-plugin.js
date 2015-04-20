@@ -195,6 +195,11 @@ define([
             return userId;
         },
 
+        isAdmin : function (jid) {
+            var admins = this.params.admins || [];
+            return admins.indexOf(jid) !== -1;
+        },
+
         /*
          * After initilization, we check if a connection as already been established
          * by converse. If not, we open a connection.

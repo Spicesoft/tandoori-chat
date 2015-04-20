@@ -1,11 +1,13 @@
 // main module
 define('tandoori-chat', [
+    'underscore',
     'config',
     'converse',
     'locales',
     'src/tandoori-converse-plugin',
     'src/hipchat-api'
 ], function (
+    _,
     config,
     converse,
     locales,
@@ -42,8 +44,17 @@ define('tandoori-chat', [
                 throw new Error('Missing id.');
             }
         },
+        extractAdmins : function (parameters) {
+            this.admins = [];
+            _.each(parameters.admins, function (admin) {
+                if (admin.xmpp_jid) {
+                    this.admins.push(admin.xmpp_jid);
+                }
+            }, this);
+        },
         start : function (parameters) {
             this.checkParameters(parameters);
+            this.extractAdmins(parameters);
 
             var boshURL = parameters.bosh_url;
             var userInfo = parameters.user;
@@ -75,7 +86,8 @@ define('tandoori-chat', [
                     jid      : userInfo.jid,
                     password : userInfo.hipchat_password,
                     username : userInfo.hipchat_name
-                }
+                },
+                admins : this.admins || []
             });
 
             if (config.debug) {

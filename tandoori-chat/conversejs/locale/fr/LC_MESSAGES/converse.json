@@ -838,6 +838,10 @@
          "No rooms found": [
             null,
             "Aucun salon trouvé"
+         ],
+         "Administrators": [
+            null,
+            "Administrateurs"
          ]
       }
    }

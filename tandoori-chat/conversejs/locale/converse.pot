@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Converse.js 0.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-09 16:31+0200\n"
+"POT-Creation-Date: 2015-04-17 17:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Click to hide these contacts"
 msgstr ""
 
-#: converse.js:327
+#: converse.js:327 ../src/converse-overrides/RosterView.js:14
 msgid "My contacts"
 msgstr ""
 
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Contact requests"
 msgstr ""
 
-#: converse.js:330
+#: converse.js:330 ../src/converse-overrides/RosterView.js:15
 msgid "Ungrouped"
 msgstr ""
 
@@ -550,11 +550,11 @@ msgstr ""
 msgid "Allow muted user to post messages"
 msgstr ""
 
-#: converse.js:2668 converse.js:4609
+#: converse.js:2668 converse.js:4611
 msgid "Save"
 msgstr ""
 
-#: converse.js:2669 converse.js:4874 converse.js:4978
+#: converse.js:2669 converse.js:4876 converse.js:4980
 msgid "Cancel"
 msgstr ""
 
@@ -744,115 +744,115 @@ msgstr ""
 msgid "Are you sure you want to decline this contact request?"
 msgstr ""
 
-#: converse.js:4147
+#: converse.js:4149
 msgid "Type to filter"
 msgstr ""
 
 #. For translators: the %1$s part gets replaced with the status
 #. Example, I am online
-#: converse.js:4580 converse.js:4653
+#: converse.js:4582 converse.js:4655
 msgid "I am %1$s"
 msgstr ""
 
-#: converse.js:4582 converse.js:4658
+#: converse.js:4584 converse.js:4660
 msgid "Click here to write a custom status message"
 msgstr ""
 
-#: converse.js:4583 converse.js:4659
+#: converse.js:4585 converse.js:4661
 msgid "Click to change your chat status"
 msgstr ""
 
-#: converse.js:4608
+#: converse.js:4610
 msgid "Custom status"
 msgstr ""
 
-#: converse.js:4636 converse.js:4644
+#: converse.js:4638 converse.js:4646
 msgid "online"
 msgstr ""
 
-#: converse.js:4638
+#: converse.js:4640
 msgid "busy"
 msgstr ""
 
-#: converse.js:4640
+#: converse.js:4642
 msgid "away for long"
 msgstr ""
 
-#: converse.js:4642
+#: converse.js:4644
 msgid "away"
 msgstr ""
 
-#: converse.js:4759
+#: converse.js:4761
 msgid "Your XMPP provider's domain name:"
 msgstr ""
 
-#: converse.js:4760
+#: converse.js:4762
 msgid "Fetch registration form"
 msgstr ""
 
-#: converse.js:4761
+#: converse.js:4763
 msgid "Tip: A list of public XMPP providers is available"
 msgstr ""
 
-#: converse.js:4762
+#: converse.js:4764
 msgid "here"
 msgstr ""
 
-#: converse.js:4767 converse.js:4976
+#: converse.js:4769 converse.js:4978
 msgid "Register"
 msgstr ""
 
-#: converse.js:4814
+#: converse.js:4816
 msgid ""
 "Sorry, the given provider does not support in band account registration. "
 "Please try with a different provider."
 msgstr ""
 
-#: converse.js:4875
+#: converse.js:4877
 msgid "Requesting a registration form from the XMPP server"
 msgstr ""
 
-#: converse.js:4910
+#: converse.js:4912
 msgid ""
 "Something went wrong while establishing a connection with \"%1$s\". Are you "
 "sure it exists?"
 msgstr ""
 
-#: converse.js:4929
+#: converse.js:4931
 msgid "Now logging you in"
 msgstr ""
 
-#: converse.js:4933
+#: converse.js:4935
 msgid "Registered successfully"
 msgstr ""
 
-#: converse.js:4981
+#: converse.js:4983
 msgid "Return"
 msgstr ""
 
-#: converse.js:5013
+#: converse.js:5015
 msgid ""
 "The provider rejected your registration attempt. Please check the values you "
 "entered for correctness."
 msgstr ""
 
-#: converse.js:5158
+#: converse.js:5160
 msgid "XMPP Username:"
 msgstr ""
 
-#: converse.js:5159
+#: converse.js:5161
 msgid "Password:"
 msgstr ""
 
-#: converse.js:5160
+#: converse.js:5162
 msgid "Log In"
 msgstr ""
 
-#: converse.js:5167 ../src/converse-overrides/LoginPanel.js:24
+#: converse.js:5169 ../src/converse-overrides/LoginPanel.js:24
 msgid "Sign in"
 msgstr ""
 
-#: converse.js:5241
+#: converse.js:5243
 msgid "Toggle chat"
 msgstr ""
 
@@ -906,4 +906,8 @@ msgstr ""
 
 #: ../src/converse-overrides/RoomsPanel.js:202
 msgid "No rooms found"
+msgstr ""
+
+#: ../src/converse-overrides/RosterView.js:17
+msgid "Administrators"
 msgstr ""
